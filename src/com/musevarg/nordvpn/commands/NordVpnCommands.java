@@ -90,9 +90,4 @@ public class NordVpnCommands {
         int loadingCharactersLength = 2;
         return line.length() <= loadingCharactersLength;
     }
-
-    // Check if response contains "you are connected"
-    private static Boolean isConnected(String response){
-        return response.toLowerCase().contains("you are connected");
-    }
 }
