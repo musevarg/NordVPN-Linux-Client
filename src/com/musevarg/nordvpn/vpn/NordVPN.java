@@ -1,4 +1,4 @@
-package com.musevarg.nordvpn.commands;
+package com.musevarg.nordvpn.vpn;
 
 /*
 * This class is a singleton. It is used to run NordVPN commands in the background.
@@ -8,20 +8,23 @@ package com.musevarg.nordvpn.commands;
 import java.io.*;
 import java.util.concurrent.TimeUnit;
 
-public class NordVpnCommands {
+public class NordVPN {
 
     // Static variable reference of single_instance
     // of type NordVpnCommands
-    private static NordVpnCommands single_instance = null;
+    private static NordVPN single_instance = null;
 
     // Constructor of the singleton
-    private NordVpnCommands() {}
+    private NordVPN() {}
+
+    // Keep track of current connection status
+    public boolean isConnected = false;
 
     // Static method to create instance of Singleton class
-    public static NordVpnCommands getInstance()
+    public static NordVPN getInstance()
     {
         if (single_instance == null) {
-            single_instance = new NordVpnCommands();
+            single_instance = new NordVPN();
         }
         return single_instance;
     }
@@ -30,9 +33,11 @@ public class NordVpnCommands {
         String response;
         try{
             response = runCommand("nordvpn c");
+            isConnected = true;
         } catch (Exception e) {
             e.printStackTrace();
             response = "Something went wrong";
+            isConnected = false;
         }
         return response;
     }
@@ -41,6 +46,18 @@ public class NordVpnCommands {
         String response;
         try{
             response = runCommand("nordvpn d");
+            isConnected = false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = "Something went wrong";
+        }
+        return response;
+    }
+
+    public String status(){
+        String response;
+        try{
+            response = runCommand("nordvpn status");
         } catch (Exception e) {
             e.printStackTrace();
             response = "Something went wrong";
@@ -83,14 +100,14 @@ public class NordVpnCommands {
     private static String printStream(InputStream inputStream) throws IOException {
         try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
             String line;
-            String lastLine = "";
+            StringBuilder allLines = new StringBuilder();
             while((line = bufferedReader.readLine()) != null) {
                 if (!isLoadingCharacter(line)){
                     System.out.println(line);
-                    lastLine = line;
+                    allLines.append(line).append("\n");
                 }
             }
-            return lastLine;
+            return allLines.toString();
         }
     }
 
