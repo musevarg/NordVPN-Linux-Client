@@ -39,6 +39,7 @@ public class NordVPN {
             response = "Something went wrong";
             isConnected = false;
         }
+        System.out.println(response);
         return response;
     }
 
@@ -51,6 +52,7 @@ public class NordVPN {
             e.printStackTrace();
             response = "Something went wrong";
         }
+        System.out.println(response);
         return response;
     }
 
@@ -62,7 +64,17 @@ public class NordVPN {
             e.printStackTrace();
             response = "Something went wrong";
         }
-        return response;
+        System.out.println(prettyStatus(response));
+        return prettyStatus(response);
+    }
+
+    // Pretty status response
+    public String prettyStatus(String status){
+        if (status.toLowerCase().contains("status: connected")){
+            return "Connected";
+        } else {
+            return "Disconnected";
+        }
     }
 
     private static String runCommand(String command) throws Exception{
@@ -103,7 +115,7 @@ public class NordVPN {
             StringBuilder allLines = new StringBuilder();
             while((line = bufferedReader.readLine()) != null) {
                 if (!isLoadingCharacter(line)){
-                    System.out.println(line);
+                    //System.out.println(line);
                     allLines.append(line).append("\n");
                 }
             }

@@ -20,7 +20,7 @@ class NordVPNTest {
         assertTrue(isCorrectResponse(response, "you are connected"));
         assertTrue(nordVPN.isConnected);
         response = nordVPN.status();
-        assertTrue(isCorrectResponse(response, "status: connected"));
+        assertTrue(isCorrectResponse(response, "connected"));
     }
 
     @Test // Disconnect from VPN
@@ -29,7 +29,7 @@ class NordVPNTest {
         assertTrue(isCorrectResponse(response, "you are disconnected"));
         assertFalse(nordVPN.isConnected);
         response = nordVPN.status();
-        assertTrue(isCorrectResponse(response, "status: disconnected"));
+        assertTrue(isCorrectResponse(response, "disconnected"));
     }
 
     // Check if response contains the expected String
