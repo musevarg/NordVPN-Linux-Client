@@ -1,1 +1,29 @@
-# NordVPN-Linux-Client
+# NordVPN Linux Client
+
+Simple GUI to use NordVPN on Linux.
+
+Currently, NordVPN only comes as a command line tool for linux. This project aims to add a UI on top of the shell commands for a smoothier user experience.
+
+This project is currently under development. Keep checking this page, it will only get better !
+
+![Screenshot from 2021-09-06 23-51-48](https://user-images.githubusercontent.com/49337864/132262380-5cd6e964-dbf6-4b4f-b705-9fa2387117b9.png)
+
+## Unit Tests
+
+All unit tests should pass.
+
+## Architecture
+
+Built using Java 16.0.2.
+
+This project doesn't use external libraries, only libraries that are part of the [JDK 16.0.2](http://jdk.java.net/16/release-notes).
+
+## Requirements
+
+In order to use this product, you must have installed the official [NordVPN app for Linux](https://nordvpn.com/download/linux/), and you must have logged in to your NordVPN account.
+
+After that, you should be able to use this Java app instead of shell commands to connect and disconnect from NordVPN.
+
+## Coming soon
+
+Better UI, country selection, extended status information, possibility to log in and out via ui, UI themes, etc.
