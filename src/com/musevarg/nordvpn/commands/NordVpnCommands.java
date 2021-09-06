@@ -37,6 +37,17 @@ public class NordVpnCommands {
         return response;
     }
 
+    public String disconnect(){
+        String response;
+        try{
+            response = runCommand("nordvpn d");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = "Something went wrong";
+        }
+        return response;
+    }
+
     private static String runCommand(String command) throws Exception{
         // Let the user know which command is running
         System.out.println("Running '" + command + "'");
