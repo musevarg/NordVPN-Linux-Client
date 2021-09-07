@@ -23,6 +23,23 @@ This project doesn't use external libraries, only libraries that are part of the
 In order to use this product, you must have installed the official [NordVPN app for Linux](https://nordvpn.com/download/linux/), and you must have logged in to your NordVPN account.
 
 After that, you should be able to use this Java app instead of shell commands to connect and disconnect from NordVPN.
+You need Java 11 or above.
+
+## Run
+
+Download the project and navigate to
+```
+your-path/NordVPN-Linux-Client/out/production/NordVPN-Client-Linux
+```
+
+and run
+```
+java -cp . com.musevarg.nordvpn.Main
+```
+
+OR
+
+open the project with a Java IDE. This project was developed using IntelliJ IDEA.
 
 ## Coming soon
 
