@@ -53,6 +53,7 @@ public class NordVPN {
             response = "Something went wrong";
         }
         System.out.println(response);
+        response = response.toLowerCase().contains("you are not connected") ? "you are disconnected" : response;
         return response;
     }
 
