@@ -17,6 +17,7 @@ public class Client extends JFrame {
         initComponents();
         this.setSize(175, 250);
         this.setContentPane(mainPanel);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
     }
 
