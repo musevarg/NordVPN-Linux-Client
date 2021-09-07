@@ -34,8 +34,10 @@ public class Client extends JFrame {
     }
 
     private void updateUiComponents(){
-        statusLabel.setText("Status: " + nordVPN.status());
         nordVPN.isConnected = nordVPN.status().equals("Connected");
+        String status = nordVPN.isConnected ? "Connected" : "Disconnected";
+        statusLabel.setText("Status: " + status);
+
         if(nordVPN.isConnected){
             connectButton.setText("Disconnect");
         } else {
