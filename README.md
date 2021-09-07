@@ -14,9 +14,9 @@ All unit tests should pass.
 
 ## Architecture
 
-Built using Java 16.0.2.
+Built using Java 11.
 
-This project doesn't use external libraries, only libraries that are part of the [JDK 16.0.2](http://jdk.java.net/16/release-notes).
+This project doesn't use external libraries, only libraries that are part of the JDK 11 (Amazon Coretto).
 
 ## Requirements
 
