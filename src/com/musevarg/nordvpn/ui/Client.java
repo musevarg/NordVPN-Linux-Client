@@ -4,8 +4,6 @@ import com.musevarg.nordvpn.vpn.NordVPN;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Client extends JFrame {
 
@@ -18,7 +16,7 @@ public class Client extends JFrame {
     private CardLayout cl = (CardLayout)(rightPanel.getLayout());
     private JPanel statusPanel;
     private JPanel countryPanel;
-    private JButton countryButton;
+    private JButton toggleButton;
     private JTextArea statusText;
     private JList<String> countryList;
     private JList<String> commandsList;
@@ -45,7 +43,7 @@ public class Client extends JFrame {
             updateUiComponents();
         });
 
-        countryButton.addActionListener(e -> cl.next(rightPanel));
+        toggleButton.addActionListener(e -> toggleRightPanel());
     }
 
     // Build custom ocuntry list
@@ -59,11 +57,21 @@ public class Client extends JFrame {
         countryList.setCellRenderer(new CountryListElement());
     }
 
+    // Handle the toggling of the right panel and the button label
+    private void toggleRightPanel(){
+        cl.next(rightPanel);
+        if (toggleButton.getText().equals("Choose Country")){
+            toggleButton.setText("View Status");
+        } else {
+            toggleButton.setText("Choose Country");
+        }
+    }
+
     // Update UI after connecting or disconnecting
     private void updateUiComponents(){
-        nordVPN.isConnected = nordVPN.status().equals("Connected");
-        String status = nordVPN.isConnected ? "Connected" : "Disconnected";
-        statusText.setText("Status: " + status);
+        String status = nordVPN.status();
+        nordVPN.isConnected = status.contains("Connected");
+        statusText.setText(status);
 
         if(nordVPN.isConnected){
             connectButton.setText("Disconnect");

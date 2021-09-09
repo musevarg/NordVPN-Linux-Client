@@ -69,17 +69,8 @@ public class NordVPN {
             e.printStackTrace();
             response = "Something went wrong";
         }
-        System.out.println(prettyStatus(response));
-        return prettyStatus(response);
-    }
-
-    // Prettify status response
-    private String prettyStatus(String status){
-        if (status.toLowerCase().contains("status: connected")){
-            return "Connected";
-        } else {
-            return "Disconnected";
-        }
+        System.out.println(response);
+        return response;
     }
 
     // Fetch country list of available servers
