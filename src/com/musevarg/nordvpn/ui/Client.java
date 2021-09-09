@@ -124,7 +124,7 @@ public class Client extends JFrame {
     private void runAndLog(String response){
         String[] responses = response.split("\n");
         for (String r : responses){
-            if (!r.contains("rate"))
+            if (!r.contains("nordvpn rate [1-5]"))
                 commandsListModel.addElement(r);
         }
     }
