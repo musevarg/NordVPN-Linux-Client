@@ -19,11 +19,12 @@ public class Client extends JFrame {
     private JButton countryButton;
     private JTextArea statusText;
     private JList countryList;
+    private JList commandsList;
     private NordVPN nordVPN = NordVPN.getInstance();
 
     public Client(){
         initComponents();
-        this.setSize(500, 300);
+        this.setSize(600, 400);
         this.setContentPane(mainPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationByPlatform(true);
@@ -44,7 +45,7 @@ public class Client extends JFrame {
 
         countryButton.addActionListener(e -> cl.next(rightPanel));
     }
-    
+
     private void updateUiComponents(){
         nordVPN.isConnected = nordVPN.status().equals("Connected");
         String status = nordVPN.isConnected ? "Connected" : "Disconnected";
