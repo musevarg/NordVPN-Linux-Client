@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 
 public class Client extends JFrame {
 
+    private NordVPN nordVPN = NordVPN.getInstance();
+    private String[] countries = nordVPN.countries();
     private JButton connectButton;
     private JPanel mainPanel;
     private JPanel leftPanel;
@@ -18,9 +20,8 @@ public class Client extends JFrame {
     private JPanel countryPanel;
     private JButton countryButton;
     private JTextArea statusText;
-    private JList countryList;
-    private JList commandsList;
-    private NordVPN nordVPN = NordVPN.getInstance();
+    private JList<String> countryList;
+    private JList<String> commandsList;
 
     public Client(){
         initComponents();
@@ -33,6 +34,7 @@ public class Client extends JFrame {
 
     private void initComponents(){
         updateUiComponents();
+        initCountryList();
 
         connectButton.addActionListener(e -> {
             if (nordVPN.isConnected){
@@ -46,6 +48,16 @@ public class Client extends JFrame {
         countryButton.addActionListener(e -> cl.next(rightPanel));
     }
 
+    private void initCountryList(){
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (String c : countries) {
+            String country = c.replace("_", " ");
+            listModel.addElement(country);
+        }
+        countryList.setModel(listModel);
+        countryList.setCellRenderer(new CountryListElement());
+    }
+
     private void updateUiComponents(){
         nordVPN.isConnected = nordVPN.status().equals("Connected");
         String status = nordVPN.isConnected ? "Connected" : "Disconnected";
@@ -57,6 +69,4 @@ public class Client extends JFrame {
             connectButton.setText("Connect");
         }
     }
-
-
 }

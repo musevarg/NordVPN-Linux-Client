@@ -2,6 +2,8 @@ package com.musevarg.nordvpn.vpn;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class NordVPNTest {
@@ -14,7 +16,7 @@ class NordVPNTest {
         assertEquals(nordVPN.hashCode(), nordVPN2.hashCode());
     }
 
-    @Test // Run quick connect command
+    /*@Test // Run quick connect command
     public void connect(){
         String response = nordVPN.connect();
         assertTrue(isCorrectResponse(response, "you are connected"));
@@ -30,6 +32,12 @@ class NordVPNTest {
         assertFalse(nordVPN.isConnected);
         response = nordVPN.status();
         assertTrue(isCorrectResponse(response, "disconnected"));
+    }*/
+
+    @Test // Fetch country list
+    public void getCountries(){
+        String[] response = nordVPN.countries();
+        assertTrue(response.length > 0);
     }
 
     // Check if response contains the expected String

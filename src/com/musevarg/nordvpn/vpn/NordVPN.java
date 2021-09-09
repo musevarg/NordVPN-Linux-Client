@@ -6,6 +6,7 @@ package com.musevarg.nordvpn.vpn;
 */
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class NordVPN {
@@ -70,13 +71,27 @@ public class NordVPN {
     }
 
     // Pretty status response
-    public String prettyStatus(String status){
+    private String prettyStatus(String status){
         if (status.toLowerCase().contains("status: connected")){
             return "Connected";
         } else {
             return "Disconnected";
         }
     }
+
+    //Fetch country list
+    public String[] countries(){
+        String response;
+        try{
+            response = runCommand("nordvpn countries");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = "Something went wrong";
+        }
+        return response.split(", ");
+    }
+
+
 
     private static String runCommand(String command) throws Exception{
         // Let the user know which command is running
