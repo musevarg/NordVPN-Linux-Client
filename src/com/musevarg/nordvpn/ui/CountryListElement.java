@@ -7,6 +7,7 @@ import com.musevarg.nordvpn.util.CountryLocales;
 
 public class CountryListElement extends DefaultListCellRenderer {
 
+        // Load flag from the res folder, if error load the flag of Taured
         private ImageIcon loadFlag(String countryCode){
             try{
                 ImageIcon flag = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("res/flags/" + countryCode + ".png")));
@@ -23,18 +24,14 @@ public class CountryListElement extends DefaultListCellRenderer {
 
         }
 
-        @Override
-        public Component getListCellRendererComponent(
-                JList list, Object value, int index,
-                boolean isSelected, boolean cellHasFocus) {
+        @Override // Create custom label for the country list, including a flag and a label
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 
-            JLabel label = (JLabel) super.getListCellRendererComponent(
-                    list, value, index, isSelected, cellHasFocus);
-
+            JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             String countryCode = CountryLocales.getCountryCode(label.getText());
-
             label.setIcon(loadFlag(countryCode.toLowerCase()));
             label.setHorizontalTextPosition(JLabel.RIGHT);
             return label;
+
         }
 }

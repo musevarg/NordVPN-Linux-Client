@@ -24,9 +24,9 @@ class UtilTest {
         assertEquals("ZA", code);
     }
 
-    @Test
+    /*@Test
     public void countryList(){
         CountryLocales.printCountries();
-    }
+    }*/
 
 }

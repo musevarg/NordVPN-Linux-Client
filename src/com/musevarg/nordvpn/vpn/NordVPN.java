@@ -30,6 +30,7 @@ public class NordVPN {
         return single_instance;
     }
 
+    // Quick connect to the fastest server
     public String connect(){
         String response;
         try{
@@ -44,6 +45,7 @@ public class NordVPN {
         return response;
     }
 
+    // Disconnect from NordVPN
     public String disconnect(){
         String response;
         try{
@@ -58,6 +60,7 @@ public class NordVPN {
         return response;
     }
 
+    // Fetch current connection status
     public String status(){
         String response;
         try{
@@ -70,7 +73,7 @@ public class NordVPN {
         return prettyStatus(response);
     }
 
-    // Pretty status response
+    // Prettify status response
     private String prettyStatus(String status){
         if (status.toLowerCase().contains("status: connected")){
             return "Connected";
@@ -79,7 +82,7 @@ public class NordVPN {
         }
     }
 
-    //Fetch country list
+    // Fetch country list of available servers
     public String[] countries(){
         String response;
         try{
@@ -91,8 +94,7 @@ public class NordVPN {
         return response.split(", ");
     }
 
-
-
+    // Runs a command in the background
     private static String runCommand(String command) throws Exception{
         // Let the user know which command is running
         System.out.println("Running '" + command + "'");

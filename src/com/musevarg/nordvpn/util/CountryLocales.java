@@ -28,6 +28,7 @@ public class CountryLocales {
         return "ERR";
     }
 
+    // Print all countries from the Java Locales
     public static void printCountries(){
         String[] locales = Locale.getISOCountries();
         for (String countryCode : locales) {

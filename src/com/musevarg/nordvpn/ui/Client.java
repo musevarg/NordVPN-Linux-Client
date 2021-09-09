@@ -48,6 +48,7 @@ public class Client extends JFrame {
         countryButton.addActionListener(e -> cl.next(rightPanel));
     }
 
+    // Build custom ocuntry list
     private void initCountryList(){
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (String c : countries) {
@@ -58,6 +59,7 @@ public class Client extends JFrame {
         countryList.setCellRenderer(new CountryListElement());
     }
 
+    // Update UI after connecting or disconnecting
     private void updateUiComponents(){
         nordVPN.isConnected = nordVPN.status().equals("Connected");
         String status = nordVPN.isConnected ? "Connected" : "Disconnected";
