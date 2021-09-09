@@ -41,6 +41,7 @@ public class Client extends JFrame {
         toggleButton.addActionListener(e -> toggleRightPanel());
         countryList.addListSelectionListener(e -> connectCountry());
         commandsList.setModel(commandsListModel);
+        commandsList.setCellRenderer(new CommandsCellRenderer(220));
     }
 
     // Build custom country list
@@ -51,7 +52,7 @@ public class Client extends JFrame {
             listModel.addElement(country);
         }
         countryList.setModel(listModel);
-        countryList.setCellRenderer(new CountryListElement());
+        countryList.setCellRenderer(new CountryCellRenderer());
     }
 
     // Quick connect / disconnect
@@ -121,7 +122,8 @@ public class Client extends JFrame {
     private void runAndLog(String response){
         String[] responses = response.split("\n");
         for (String r : responses){
-            commandsListModel.addElement(r);
+            if (!r.contains("rate"))
+                commandsListModel.addElement(r);
         }
     }
 }
