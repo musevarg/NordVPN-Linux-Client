@@ -3,17 +3,22 @@ package com.musevarg.nordvpn.ui;
 import com.musevarg.nordvpn.vpn.NordVPN;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Client extends JFrame {
 
     private JButton connectButton;
-    //private JLabel statusLabel;
     private JPanel mainPanel;
-    private JPanel rightPanel;
     private JPanel leftPanel;
+    private JPanel rightPanel;
+    private CardLayout cl = (CardLayout)(rightPanel.getLayout());
+    private JPanel statusPanel;
+    private JPanel countryPanel;
     private JButton countryButton;
+    private JTextArea statusText;
+    private JList countryList;
     private NordVPN nordVPN = NordVPN.getInstance();
 
     public Client(){
@@ -26,7 +31,7 @@ public class Client extends JFrame {
     }
 
     private void initComponents(){
-        //updateUiComponents();
+        updateUiComponents();
 
         connectButton.addActionListener(e -> {
             if (nordVPN.isConnected){
@@ -34,21 +39,23 @@ public class Client extends JFrame {
             } else {
                 nordVPN.connect();
             }
-            //updateUiComponents();
+            updateUiComponents();
         });
-    }
 
-    /*private void updateUiComponents(){
+        countryButton.addActionListener(e -> cl.next(rightPanel));
+    }
+    
+    private void updateUiComponents(){
         nordVPN.isConnected = nordVPN.status().equals("Connected");
         String status = nordVPN.isConnected ? "Connected" : "Disconnected";
-        statusLabel.setText("Status: " + status);
+        statusText.setText("Status: " + status);
 
         if(nordVPN.isConnected){
             connectButton.setText("Disconnect");
         } else {
             connectButton.setText("Connect");
         }
-    }*/
+    }
 
 
 }
