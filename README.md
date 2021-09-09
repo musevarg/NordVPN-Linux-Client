@@ -6,7 +6,8 @@ Currently, NordVPN only comes as a command line tool for linux. This project aim
 
 This project is currently under development. Keep checking this page, it will only get better !
 
-![Screenshot from 2021-09-06 23-51-48](https://user-images.githubusercontent.com/49337864/132262380-5cd6e964-dbf6-4b4f-b705-9fa2387117b9.png)
+![Screenshot from 2021-09-09 17-50-43](https://user-images.githubusercontent.com/49337864/132719794-4317215b-3d28-41cb-afba-21fe871fca07.png)
+
 
 ## Unit Tests
 
