@@ -34,19 +34,12 @@ public class Client extends JFrame {
         updateUiComponents();
         initCountryList();
 
-        connectButton.addActionListener(e -> {
-            if (nordVPN.isConnected){
-                nordVPN.disconnect();
-            } else {
-                nordVPN.connect();
-            }
-            updateUiComponents();
-        });
+        connectButton.addActionListener(e -> toggleConnection());
 
         toggleButton.addActionListener(e -> toggleRightPanel());
     }
 
-    // Build custom ocuntry list
+    // Build custom country list
     private void initCountryList(){
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (String c : countries) {
@@ -55,6 +48,30 @@ public class Client extends JFrame {
         }
         countryList.setModel(listModel);
         countryList.setCellRenderer(new CountryListElement());
+    }
+
+    // Quick connect / disconnect
+    private void toggleConnection(){
+        if (nordVPN.isConnected){
+            disconnect();
+        } else {
+            connect(null);
+        }
+    }
+
+    private void connect(String country){
+        if (country == null){
+            nordVPN.connect();
+        } else {
+            nordVPN.connect(country);
+        }
+        updateUiComponents();
+    }
+
+    private void disconnect(){
+        if (nordVPN.isConnected)
+            nordVPN.disconnect();
+        updateUiComponents();
     }
 
     // Handle the toggling of the right panel and the button label

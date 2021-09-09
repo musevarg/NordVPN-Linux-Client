@@ -45,6 +45,21 @@ public class NordVPN {
         return response;
     }
 
+    // Connect to specific country
+    public String connect(String country){
+        String response;
+        try{
+            response = runCommand("nordvpn c " + country);
+            isConnected = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = "Something went wrong";
+            isConnected = false;
+        }
+        System.out.println(response);
+        return response;
+    }
+
     // Disconnect from NordVPN
     public String disconnect(){
         String response;
