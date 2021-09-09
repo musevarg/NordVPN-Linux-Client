@@ -52,14 +52,18 @@ public class Client extends JFrame {
 
     // Quick connect / disconnect
     private void toggleConnection(){
-        if (nordVPN.isConnected){
-            disconnect();
-        } else {
-            connect(null);
-        }
+        new Thread(() -> {
+            if (nordVPN.isConnected){
+                disconnect();
+            } else {
+                connect(null);
+            }
+        }).start();
     }
 
     private void connect(String country){
+        connectButton.setText("Connecting...");
+        connectButton.setEnabled(false);
         if (country == null){
             nordVPN.connect();
         } else {
@@ -95,5 +99,6 @@ public class Client extends JFrame {
         } else {
             connectButton.setText("Connect");
         }
+        connectButton.setEnabled(true);
     }
 }
