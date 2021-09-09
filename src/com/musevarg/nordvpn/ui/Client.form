@@ -117,7 +117,9 @@
             <children>
               <component id="c9ce6" class="javax.swing.JList" binding="commandsList">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <font name="Courier" size="10" style="0"/>
+                </properties>
               </component>
             </children>
           </scrollpane>

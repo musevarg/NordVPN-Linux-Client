@@ -3,6 +3,7 @@ package com.musevarg.nordvpn.ui;
 import com.musevarg.nordvpn.vpn.NordVPN;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 
 public class Client extends JFrame {
@@ -20,6 +21,8 @@ public class Client extends JFrame {
     private JTextArea statusText;
     private JList<String> countryList;
     private JList<String> commandsList;
+    DefaultListModel<String> commandsListModel = new DefaultListModel<>();
+    private boolean isConnecting = false;
 
     public Client(){
         initComponents();
@@ -35,8 +38,9 @@ public class Client extends JFrame {
         initCountryList();
 
         connectButton.addActionListener(e -> toggleConnection());
-
         toggleButton.addActionListener(e -> toggleRightPanel());
+        countryList.addListSelectionListener(e -> connectCountry());
+        commandsList.setModel(commandsListModel);
     }
 
     // Build custom country list
@@ -65,16 +69,26 @@ public class Client extends JFrame {
         connectButton.setText("Connecting...");
         connectButton.setEnabled(false);
         if (country == null){
-            nordVPN.connect();
+            isConnecting = true;
+            runAndLog(nordVPN.connect());
         } else {
-            nordVPN.connect(country);
+            runAndLog(nordVPN.connect(country));
         }
         updateUiComponents();
     }
 
+    private void connectCountry(){
+        if (!isConnecting){
+            connectButton.setText("Connecting...");
+            connectButton.setEnabled(false);
+            isConnecting = true;
+            new Thread(() -> connect(countries[countryList.getSelectedIndex()])).start();
+        }
+    }
+
     private void disconnect(){
         if (nordVPN.isConnected)
-            nordVPN.disconnect();
+            runAndLog(nordVPN.disconnect());
         updateUiComponents();
     }
 
@@ -100,5 +114,14 @@ public class Client extends JFrame {
             connectButton.setText("Connect");
         }
         connectButton.setEnabled(true);
+        isConnecting = false;
+    }
+
+    // Clean response from CLI
+    private void runAndLog(String response){
+        String[] responses = response.split("\n");
+        for (String r : responses){
+            commandsListModel.addElement(r);
+        }
     }
 }

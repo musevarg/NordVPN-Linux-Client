@@ -32,6 +32,12 @@ class NordVPNTest {
         assertFalse(nordVPN.isConnected);
         response = nordVPN.status();
         assertTrue(isCorrectResponse(response, "disconnected"));
+    }
+
+    @Test // connect to france
+    public void connectToFrance(){
+        String response = nordVPN.connect("France");
+        assertTrue(isCorrectResponse(response, "you are connected"));
     }*/
 
     @Test // Fetch country list
