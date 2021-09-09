@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.Objects;
 import com.musevarg.nordvpn.util.CountryLocales;
 
+// Custom cell renderer for the country list (allows for flag + label)
 public class CountryCellRenderer extends DefaultListCellRenderer {
 
         // Load flag from the res folder, if error load the flag of Taured
@@ -36,7 +37,7 @@ public class CountryCellRenderer extends DefaultListCellRenderer {
         }
 }
 
-
+// This renderer is used to provide text wrap in the JList that acts as a log for CLI commands and responses
 class CommandsCellRenderer extends DefaultListCellRenderer {
     public static final String HTML_1 = "<html><body style='width: ";
     public static final String HTML_2 = "px'>";
