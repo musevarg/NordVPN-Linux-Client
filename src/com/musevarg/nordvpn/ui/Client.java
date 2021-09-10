@@ -32,6 +32,7 @@ public class Client extends JFrame {
     private JLabel flagLabelLeft;
     private JLabel countryLabelLeft;
     private JLabel pickCityLabel;
+    private JLabel logoLabel;
     DefaultListModel<String> commandsListModel = new DefaultListModel<>();
     private boolean isConnecting = false;
 
