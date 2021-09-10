@@ -56,13 +56,13 @@ public class NordVPN {
     }
 
     // Fetch country list
-    public void countries(){
-        new Thread(() -> vpnCommands.getCountries()).start();
+    public String[] countries(){
+        return vpnCommands.getCountries();
     }
 
     // Fetch city list
-    public void cities(String country){
-        new Thread(() -> vpnCommands.getCities(country)).start();
+    public String[] cities(String country){
+        return vpnCommands.getCities(country);
     }
 
     /*

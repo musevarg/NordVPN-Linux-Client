@@ -12,6 +12,9 @@ public class MainWindow extends JFrame {
     private Locale currentLocale;
     private ResourceBundle rb;
 
+    // Main Window Logic
+    MainWindowLogic mwl = new MainWindowLogic();
+
     // UI elements
     private JPanel mainCardLayout;
     private JPanel defaultCard;
@@ -48,10 +51,11 @@ public class MainWindow extends JFrame {
         initDefaultPanelButtonActions();
         initCountryPanelButtonActions();
 
+        // Remaining elements to be generated
+        generateCountryList();
+
         // Show main panel
         showDefaultPanel();
-
-        MainWindowLogic model = new MainWindowLogic();
     }
 
     // Init the locale
@@ -94,6 +98,16 @@ public class MainWindow extends JFrame {
     // Init button actions of the country panel
     private void initCountryPanelButtonActions(){
         countryBackBtn.addActionListener(e -> showDefaultPanel());
+    }
+
+    /*
+     * THE METHODS BELOW ARE USED TO GENERATE EVERYTHING ELSE
+     * THAT COULDN'T BE DONE BY THE OTHER ONES
+     */
+
+    // Generate country list with flags and labels
+    private void generateCountryList(){
+        mwl.createCountryList(countryList);
     }
 
     /*
