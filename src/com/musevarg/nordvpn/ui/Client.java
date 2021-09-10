@@ -31,6 +31,7 @@ public class Client extends JFrame {
     private JButton backButton;
     private JLabel flagLabelLeft;
     private JLabel countryLabelLeft;
+    private JLabel pickCityLabel;
     DefaultListModel<String> commandsListModel = new DefaultListModel<>();
     private boolean isConnecting = false;
 
@@ -60,6 +61,9 @@ public class Client extends JFrame {
         // Set style of command JList
         commandsList.setModel(commandsListModel);
         commandsList.setCellRenderer(new CommandsCellRenderer(220));
+
+        // Extra init to make the whole thing pretty
+        pickCityLabel.setText("<html><body><p style=\"margin-top:3px;\">Pick City:</p></body></html>");
     }
 
     // Build custom country list
@@ -142,8 +146,9 @@ public class Client extends JFrame {
         if(isCountryPanelShowing){
             lcl.next(leftCardLayout);
             isCountryPanelShowing = false;
-            if(isCountryListShowing)
+            if(isCountryListShowing) {
                 toggleRightPanel();
+            }
         }
     }
 
@@ -167,13 +172,18 @@ public class Client extends JFrame {
 
     // Handle the toggling of the right panel and the button label
     private void toggleRightPanel(){
-        cl.next(rightPanel);
-        if (toggleButton.getText().equals("Choose Country")){
-            toggleButton.setText("View Status");
-            isCountryListShowing = true;
-        } else {
-            toggleButton.setText("Choose Country");
+        if (isCountryListShowing){
+            cl.next(rightPanel);
             isCountryListShowing = false;
+        } else {
+            cl.next(rightPanel);
+            isCountryListShowing = true;
+            if(countryList.getSelectedIndex() != -1){
+                showCountryDetails();
+            } else {
+                countryList.setSelectedIndex(0);
+                showCountryDetails();
+            }
         }
     }
 
