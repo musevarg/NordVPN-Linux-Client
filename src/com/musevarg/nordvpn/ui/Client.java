@@ -38,7 +38,7 @@ public class Client extends JFrame {
 
     public Client(){
         initComponents();
-        this.setTitle("NordVPN Linux Client");
+        this.setTitle("Pôle - A NordVPN UI for Linux");
         this.setSize(600, 400);
         this.setContentPane(mainPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
