@@ -34,6 +34,7 @@ public class Client extends JFrame {
     private JLabel pickCityLabel;
     private JLabel logoLabel;
     private JLabel loadingLabel;
+    private JButton chooseServerTypeButton;
 
     public Client(){
         initComponents();
@@ -142,7 +143,6 @@ public class Client extends JFrame {
         ImageIcon flag = CountryCellRenderer.loadFlag(countryCode.toLowerCase(), 45);
         flagLabelLeft.setIcon(flag);
         countryLabelLeft.setText(countryList.getSelectedValue());
-        connectCityButton.setText("Connect to " + cityList.getSelectedValue());
     }
 
     // Fetch city list in a separate thread
@@ -156,6 +156,7 @@ public class Client extends JFrame {
             }
             cityList.setModel(listModel);
             cityList.setSelectedIndex(0);
+            connectCityButton.setText("Connect to " + cityList.getSelectedValue());
         }).start();
     }
 
