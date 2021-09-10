@@ -1,11 +1,14 @@
 package com.musevarg.nordvpn.vpn;
 
 /*
-* This class is a singleton. It is used to run NordVPN commands in the background.
+* This class is a singleton. It is used to run NordVPN commands in the terminal.
 * We do not need to instantiate it more than once.
 */
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 public class NordVPNCommands {
@@ -19,6 +22,9 @@ public class NordVPNCommands {
 
     // Keep track of current connection status
     public boolean isConnected = false;
+
+    // Keep track of all commands and responses in a log
+    private static ArrayList<String> commandsLog = new ArrayList<>();
 
     // Static method to create instance of Singleton class
     public static NordVPNCommands getInstance()
@@ -111,10 +117,21 @@ public class NordVPNCommands {
         return response.split(", ");
     }
 
+    // Get a timestamp for the log
+    private static String getTimestamp(){
+        return "[" + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()) + "] ";
+    }
+
+    // Return log to the user
+    public ArrayList<String> getLog(){
+        return commandsLog;
+    }
+
     // Runs a command in the background
     private static String runCommand(String command) throws Exception{
         // Let the user know which command is running
         System.out.println("Running '" + command + "'");
+        commandsLog.add(getTimestamp() + "Running '" + command + "'");
         // Create a process builder to run command
         ProcessBuilder builder = new ProcessBuilder();
         // Set the command to run in a Linux shell
@@ -152,6 +169,7 @@ public class NordVPNCommands {
                 if (!isLoadingCharacter(line)){
                     //System.out.println(line);
                     allLines.append(line).append("\n");
+                    commandsLog.add(getTimestamp() + line);
                 }
             }
             return allLines.toString();

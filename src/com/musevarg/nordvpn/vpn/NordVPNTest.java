@@ -6,53 +6,53 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class NordVPNTest {
 
-    NordVPNCommands nordVPN = NordVPNCommands.getInstance();
+    NordVPNCommands nordVpnCommands = NordVPNCommands.getInstance();
 
     @Test //Ensure that the NordVPN class can only be instantiated once
     public void singletonTest() {
         NordVPNCommands nordVPN2 = NordVPNCommands.getInstance();
-        assertEquals(nordVPN.hashCode(), nordVPN2.hashCode());
+        assertEquals(nordVpnCommands.hashCode(), nordVPN2.hashCode());
     }
 
     /*@Test // Run quick connect command
     public void connect(){
-        String response = nordVPN.connect();
+        String response = nordVpnCommands.connect();
         assertTrue(isCorrectResponse(response, "you are connected"));
-        assertTrue(nordVPN.isConnected);
-        response = nordVPN.status();
+        assertTrue(nordVpnCommands.isConnected);
+        response = nordVpnCommands.status();
         assertTrue(isCorrectResponse(response, "connected"));
     }
 
     @Test // Disconnect from VPN
     public void disconnect(){
-        String response = nordVPN.disconnect();
+        String response = nordVpnCommands.disconnect();
         assertTrue(isCorrectResponse(response, "you are disconnected"));
-        assertFalse(nordVPN.isConnected);
-        response = nordVPN.status();
+        assertFalse(nordVpnCommands.isConnected);
+        response = nordVpnCommands.status();
         assertTrue(isCorrectResponse(response, "disconnected"));
     }
 
     @Test // connect to france
     public void connectToFrance(){
-        String response = nordVPN.connect("France");
+        String response = nordVpnCommands.connect("France");
         assertTrue(isCorrectResponse(response, "you are connected"));
     }*/
 
     @Test // Fetch country list
     public void getCountries(){
-        String[] response = nordVPN.getCountries();
+        String[] response = nordVpnCommands.getCountries();
         assertTrue(response.length > 0);
     }
 
     @Test // Fetch city list (at time of test france has only 2 cities)
     public void getCitiesFrance(){
-        String[] response = nordVPN.getCities("France");
+        String[] response = nordVpnCommands.getCities("France");
         assertEquals(2, response.length);
     }
 
     @Test // Fetch city list (at time of test Belgium has only 1 city)
     public void getCitiesBelgium(){
-        String[] response = nordVPN.getCities("Belgium");
+        String[] response = nordVpnCommands.getCities("Belgium");
         assertEquals(1, response.length);
     }
 
