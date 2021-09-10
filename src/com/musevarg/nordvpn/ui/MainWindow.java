@@ -51,7 +51,7 @@ public class MainWindow extends JFrame {
         // Show main panel
         showDefaultPanel();
 
-        MainWindowModel model = new MainWindowModel(this);
+        MainWindowLogic model = new MainWindowLogic();
     }
 
     // Init the locale
