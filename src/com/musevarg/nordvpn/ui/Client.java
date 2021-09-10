@@ -35,7 +35,6 @@ public class Client extends JFrame {
     private JLabel logoLabel;
     private JLabel loadingLabel;
     DefaultListModel<String> commandsListModel = new DefaultListModel<>();
-    private boolean isConnecting = false;
 
     public Client(){
         initComponents();
@@ -91,16 +90,34 @@ public class Client extends JFrame {
         }).start();
     }
 
+    // Connect (quick connect, country connect or city connect)
     private void connect(String country){
-        connectButton.setText("Connecting...");
-        connectButton.setEnabled(false);
+        connectingUI();
         if (country == null){
-            isConnecting = true;
-            new Thread(() -> runAndLog(nordVPN.connect())).start();
+            new Thread(() -> {
+                runAndLog(nordVPN.connect());
+                updateUiComponents();
+            }).start();
         } else {
-            new Thread(() -> runAndLog(nordVPN.connect(country))).start();
+            new Thread(() -> {
+                runAndLog(nordVPN.connect(country));
+                updateUiComponents();
+            }).start();
         }
-        updateUiComponents();
+    }
+
+    // Prevent user from triggering multiple connect commands
+    // and change UI accordingly
+    private void connectingUI(){
+        loadingLabel.setIcon(getLoaderGif());
+        connectButton.setEnabled(false);
+        toggleButton.setEnabled(false);
+        connectButton.setText("Connecting...");
+        statusText.setText("Status: Connecting...");
+        if (isCountryListShowing){
+            toggleRightPanel();
+            showDefaultButtons();
+        }
     }
 
     // Prevent panels from toggling
@@ -155,19 +172,13 @@ public class Client extends JFrame {
         }
     }
 
-    private void connectCountry(){
-        if (!isConnecting){
-            connectButton.setText("Connecting...");
-            connectButton.setEnabled(false);
-            isConnecting = true;
-            new Thread(() -> connect(countries[countryList.getSelectedIndex()])).start();
-        }
-    }
-
+    // Disconnect
     private void disconnect(){
         if (nordVPN.isConnected)
-            runAndLog(nordVPN.disconnect());
-        updateUiComponents();
+            new Thread(() -> {
+                runAndLog(nordVPN.disconnect());
+                updateUiComponents();
+            }).start();
     }
 
 
@@ -192,6 +203,7 @@ public class Client extends JFrame {
 
     // Update UI after connecting or disconnecting
     private void updateUiComponents(){
+        loadingLabel.setIcon(null);
         String status = nordVPN.status();
         nordVPN.isConnected = status.contains("Connected");
         statusText.setText(status);
@@ -202,7 +214,7 @@ public class Client extends JFrame {
             connectButton.setText("Quick Connect");
         }
         connectButton.setEnabled(true);
-        isConnecting = false;
+        toggleButton.setEnabled(true);
     }
 
     // Clean response from CLI
@@ -220,5 +232,10 @@ public class Client extends JFrame {
         Image tempImage = logo.getImage().getScaledInstance(150, 60,  java.awt.Image.SCALE_SMOOTH); // Resize image
         logo = new ImageIcon(tempImage);
         return logo;
+    }
+
+    // Load loader GIF
+    private ImageIcon getLoaderGif(){
+        return new ImageIcon(Objects.requireNonNull(CountryCellRenderer.class.getClassLoader().getResource("res/img/loader.gif")));
     }
 }
