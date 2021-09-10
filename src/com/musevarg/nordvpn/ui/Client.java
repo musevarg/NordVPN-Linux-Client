@@ -196,7 +196,7 @@ public class Client extends JFrame {
         if(nordVPN.isConnected){
             connectButton.setText("Disconnect");
         } else {
-            connectButton.setText("Connect");
+            connectButton.setText("Quick Connect");
         }
         connectButton.setEnabled(true);
         isConnecting = false;
