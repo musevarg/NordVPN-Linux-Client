@@ -100,6 +100,18 @@ public class NordVPN {
         return response.split(", ");
     }
 
+    // Fetch city list of available servers
+    public String[] cities(String country){
+        String response;
+        try{
+            response = runCommand("nordvpn cities " + country);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = "Something went wrong";
+        }
+        return response.split(", ");
+    }
+
     // Runs a command in the background
     private static String runCommand(String command) throws Exception{
         // Let the user know which command is running

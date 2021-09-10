@@ -27,7 +27,7 @@ public class Client extends JFrame {
     private JPanel defaultLeftPanel;
     private JPanel countryDetailLeftPanel;
     private JList<String> cityList;
-    private JButton connectToButton;
+    private JButton connectCityButton;
     private JButton backButton;
     private JLabel flagLabelLeft;
     private JLabel countryLabelLeft;
@@ -53,6 +53,8 @@ public class Client extends JFrame {
         connectButton.addActionListener(e -> toggleConnection());
         toggleButton.addActionListener(e -> toggleRightPanel());
         countryList.addListSelectionListener(e -> showCountryDetails());
+        cityList.addListSelectionListener(e -> updateCity());
+        connectCityButton.addActionListener(e -> connect(cityList.getSelectedValue()));
         backButton.addActionListener(e -> showDefaultButtons());
 
         // Set style of command JList
@@ -108,10 +110,31 @@ public class Client extends JFrame {
     
     // Get country details
     private void fetchCountryDetails(){
+        getCityList(countries[countryList.getSelectedIndex()]);
         String countryCode = CountryLocales.getCountryCode(countryList.getSelectedValue());
         ImageIcon flag = CountryCellRenderer.loadFlag(countryCode.toLowerCase(), 45);
         flagLabelLeft.setIcon(flag);
         countryLabelLeft.setText(countryList.getSelectedValue());
+        connectCityButton.setText("Connect to " + cityList.getSelectedValue());
+    }
+
+    // Fetch city list in a separate thread
+    private void getCityList(String country){
+        new Thread(() -> {
+            String[] cities = nordVPN.cities(country);
+            DefaultListModel<String> listModel = new DefaultListModel<>();
+            for (String c : cities) {
+                String city = c.replace("_", " ");
+                listModel.addElement(city);
+            }
+            cityList.setModel(listModel);
+            cityList.setSelectedIndex(0);
+        }).start();
+    }
+
+    // Change button text when selecting different city
+    private void updateCity(){
+        connectCityButton.setText("Connect to " + cityList.getSelectedValue());
     }
 
     // Toggle default buttons (left cardlayout)

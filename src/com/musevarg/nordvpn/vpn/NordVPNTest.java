@@ -46,6 +46,18 @@ class NordVPNTest {
         assertTrue(response.length > 0);
     }
 
+    @Test // Fetch city list
+    public void getCitiesFrance(){
+        String[] response = nordVPN.cities("France");
+        assertEquals(2, response.length);
+    }
+
+    @Test // Fetch city list
+    public void getCitiesBelgium(){
+        String[] response = nordVPN.cities("Belgium");
+        assertEquals(1, response.length);
+    }
+
     // Check if response contains the expected String
     private Boolean isCorrectResponse(String response, String expected){
         return response.toLowerCase().contains(expected);
