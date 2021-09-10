@@ -46,13 +46,13 @@ class NordVPNTest {
         assertTrue(response.length > 0);
     }
 
-    @Test // Fetch city list
+    @Test // Fetch city list (at time of test france has only 2 cities)
     public void getCitiesFrance(){
         String[] response = nordVPN.cities("France");
         assertEquals(2, response.length);
     }
 
-    @Test // Fetch city list
+    @Test // Fetch city list (at time of test Belgium has only 1 city)
     public void getCitiesBelgium(){
         String[] response = nordVPN.cities("Belgium");
         assertEquals(1, response.length);
