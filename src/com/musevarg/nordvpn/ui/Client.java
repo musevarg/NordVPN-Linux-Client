@@ -4,7 +4,6 @@ import com.musevarg.nordvpn.util.CountryLocales;
 import com.musevarg.nordvpn.vpn.NordVPN;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.Objects;
 
@@ -34,6 +33,7 @@ public class Client extends JFrame {
     private JLabel countryLabelLeft;
     private JLabel pickCityLabel;
     private JLabel logoLabel;
+    private JLabel loadingLabel;
     DefaultListModel<String> commandsListModel = new DefaultListModel<>();
     private boolean isConnecting = false;
 
@@ -96,9 +96,9 @@ public class Client extends JFrame {
         connectButton.setEnabled(false);
         if (country == null){
             isConnecting = true;
-            runAndLog(nordVPN.connect());
+            new Thread(() -> runAndLog(nordVPN.connect())).start();
         } else {
-            runAndLog(nordVPN.connect(country));
+            new Thread(() -> runAndLog(nordVPN.connect(country))).start();
         }
         updateUiComponents();
     }
@@ -216,7 +216,7 @@ public class Client extends JFrame {
 
     // Load main logo
     private ImageIcon getLogo(){
-        ImageIcon logo = new ImageIcon(Objects.requireNonNull(CountryCellRenderer.class.getClassLoader().getResource("res/logos/pole-logo.png")));
+        ImageIcon logo = new ImageIcon(Objects.requireNonNull(CountryCellRenderer.class.getClassLoader().getResource("res/img/pole-logo.png")));
         Image tempImage = logo.getImage().getScaledInstance(150, 60,  java.awt.Image.SCALE_SMOOTH); // Resize image
         logo = new ImageIcon(tempImage);
         return logo;
