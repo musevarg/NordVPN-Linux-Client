@@ -6,6 +6,7 @@ import com.musevarg.nordvpn.vpn.NordVPN;
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.util.Objects;
 
 public class Client extends JFrame {
 
@@ -65,6 +66,7 @@ public class Client extends JFrame {
 
         // Extra init to make the whole thing pretty
         pickCityLabel.setText("<html><body><p style=\"margin-top:3px;\">Pick City:</p></body></html>");
+        logoLabel.setIcon(getLogo());
     }
 
     // Build custom country list
@@ -210,5 +212,13 @@ public class Client extends JFrame {
             if (!r.contains("nordvpn rate [1-5]"))
                 commandsListModel.addElement(r);
         }
+    }
+
+    // Load main logo
+    private ImageIcon getLogo(){
+        ImageIcon logo = new ImageIcon(Objects.requireNonNull(CountryCellRenderer.class.getClassLoader().getResource("res/logos/pole-logo.png")));
+        Image tempImage = logo.getImage().getScaledInstance(150, 60,  java.awt.Image.SCALE_SMOOTH); // Resize image
+        logo = new ImageIcon(tempImage);
+        return logo;
     }
 }
