@@ -28,7 +28,6 @@ public class CountryCellRenderer extends DefaultListCellRenderer {
 
         @Override // Create custom label for the country list, including a flag and a label
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-
             JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             String countryCode = CountryLocales.getCountryCode(label.getText());
             label.setIcon(loadFlag(countryCode.toLowerCase(), 30));

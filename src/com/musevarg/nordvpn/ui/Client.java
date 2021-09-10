@@ -4,6 +4,7 @@ import com.musevarg.nordvpn.util.CountryLocales;
 import com.musevarg.nordvpn.vpn.NordVPN;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.util.Objects;
 
@@ -21,7 +22,6 @@ public class Client extends JFrame {
     private JButton toggleButton;
     private JTextArea statusText;
     private JList<String> countryList;
-    private JList<String> commandsList;
     private JPanel leftCardLayout;
     private CardLayout lcl = (CardLayout) (leftCardLayout.getLayout());
     private JPanel defaultLeftPanel;
@@ -34,7 +34,6 @@ public class Client extends JFrame {
     private JLabel pickCityLabel;
     private JLabel logoLabel;
     private JLabel loadingLabel;
-    DefaultListModel<String> commandsListModel = new DefaultListModel<>();
 
     public Client(){
         initComponents();
@@ -54,14 +53,18 @@ public class Client extends JFrame {
         // Assign action listeners
         connectButton.addActionListener(e -> toggleConnection());
         toggleButton.addActionListener(e -> toggleRightPanel());
-        countryList.addListSelectionListener(e -> showCountryDetails());
-        cityList.addListSelectionListener(e -> updateCity());
+        countryList.addListSelectionListener(e -> {
+            if(e.getValueIsAdjusting()){
+                showCountryDetails();
+            }
+        });
+        cityList.addListSelectionListener(e -> {
+            if(e.getValueIsAdjusting()){
+                updateCity();
+            }
+        });
         connectCityButton.addActionListener(e -> connect(cityList.getSelectedValue()));
         backButton.addActionListener(e -> showDefaultButtons());
-
-        // Set style of command JList
-        commandsList.setModel(commandsListModel);
-        commandsList.setCellRenderer(new CommandsCellRenderer(220));
 
         // Extra init to make the whole thing pretty
         pickCityLabel.setText("<html><body><p style=\"margin-top:3px;\">Pick City:</p></body></html>");
@@ -221,8 +224,7 @@ public class Client extends JFrame {
     private void runAndLog(String response){
         String[] responses = response.split("\n");
         for (String r : responses){
-            if (!r.contains("nordvpn rate [1-5]"))
-                commandsListModel.addElement(r);
+            System.out.println(r);
         }
     }
 
