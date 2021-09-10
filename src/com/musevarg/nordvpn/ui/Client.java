@@ -21,6 +21,15 @@ public class Client extends JFrame {
     private JTextArea statusText;
     private JList<String> countryList;
     private JList<String> commandsList;
+    private JPanel leftCardLayout;
+    private CardLayout lcl = (CardLayout) (leftCardLayout.getLayout());
+    private JPanel defaultLeftPanel;
+    private JPanel countryDetailLeftPanel;
+    private JList<String> cityList;
+    private JButton connectToButton;
+    private JButton backButton;
+    private JLabel flagLabelLeft;
+    private JLabel countryLabelLeft;
     DefaultListModel<String> commandsListModel = new DefaultListModel<>();
     private boolean isConnecting = false;
 
@@ -39,9 +48,13 @@ public class Client extends JFrame {
         updateUiComponents();
         initCountryList();
 
+        // Assign action listeners
         connectButton.addActionListener(e -> toggleConnection());
         toggleButton.addActionListener(e -> toggleRightPanel());
-        countryList.addListSelectionListener(e -> connectCountry());
+        countryList.addListSelectionListener(e -> showCountryDetails());
+        backButton.addActionListener(e -> showDefaultButtons());
+
+        // Set style of command JList
         commandsList.setModel(commandsListModel);
         commandsList.setCellRenderer(new CommandsCellRenderer(220));
     }
@@ -80,6 +93,27 @@ public class Client extends JFrame {
         updateUiComponents();
     }
 
+    // Prevent panels from toggling
+    private boolean isCountryPanelShowing = false;
+
+    // Toggle country detail (left cardlayout)
+    private void showCountryDetails(){
+        if (!isCountryPanelShowing){
+            lcl.next(leftCardLayout);
+            isCountryPanelShowing = true;
+        }
+    }
+
+    // Toggle default buttons (left cardlayout)
+    private void showDefaultButtons(){
+        if(isCountryPanelShowing){
+            lcl.next(leftCardLayout);
+            isCountryPanelShowing = false;
+            if(isCountryListShowing)
+                toggleRightPanel();
+        }
+    }
+
     private void connectCountry(){
         if (!isConnecting){
             connectButton.setText("Connecting...");
@@ -95,13 +129,18 @@ public class Client extends JFrame {
         updateUiComponents();
     }
 
+
+    private boolean isCountryListShowing = false;
+
     // Handle the toggling of the right panel and the button label
     private void toggleRightPanel(){
         cl.next(rightPanel);
         if (toggleButton.getText().equals("Choose Country")){
             toggleButton.setText("View Status");
+            isCountryListShowing = true;
         } else {
             toggleButton.setText("Choose Country");
+            isCountryListShowing = false;
         }
     }
 
