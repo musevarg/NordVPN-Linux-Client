@@ -6,12 +6,14 @@ import javax.swing.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class Client2 extends JFrame {
+public class MainWindow extends JFrame {
 
+    // Locale and Resource Bundle
     private Locale currentLocale;
-    ResourceBundle rb;
+    private ResourceBundle rb;
 
-    private JPanel mainCardLayoutPanel;
+    // UI elements
+    private JPanel mainCardLayout;
     private JPanel defaultCard;
     private JButton quickConnBtn;
     private JButton serverCountriesBtn;
@@ -27,10 +29,10 @@ public class Client2 extends JFrame {
     private JLabel countryNameLabel;
     private JLabel pickCityLabel;
 
-    public Client2(){
+    public MainWindow(){
         initComponents();
         this.setSize(600, 400);
-        this.setContentPane(mainCardLayoutPanel);
+        this.setContentPane(mainCardLayout);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationByPlatform(true);
         this.setVisible(true);
@@ -39,22 +41,27 @@ public class Client2 extends JFrame {
 
     // Init the components that are part of the form
     private void initComponents(){
+        // Init locale
         initLocale(LanguageLocales.enLocale);
 
-        initDefaultPanelText();
+        // Button Action Listeners
         initDefaultPanelButtonActions();
-
-        initCountryPanelText();
         initCountryPanelButtonActions();
 
+        // Show main panel
         showDefaultPanel();
+
+        MainWindowModel model = new MainWindowModel(this);
     }
 
     // Init the locale
     private void initLocale(Locale locale){
         currentLocale = locale;
         rb = ResourceBundle.getBundle("language", currentLocale);
+
         this.setTitle(rb.getString("mainTitle"));
+        initDefaultPanelText();
+        initCountryPanelText();
     }
 
     /*
@@ -95,18 +102,18 @@ public class Client2 extends JFrame {
 
     // Display the default panel
     private void showDefaultPanel(){
-        mainCardLayoutPanel.removeAll();
-        mainCardLayoutPanel.add(defaultCard);
-        mainCardLayoutPanel.repaint();
-        mainCardLayoutPanel.revalidate();
+        mainCardLayout.removeAll();
+        mainCardLayout.add(defaultCard);
+        mainCardLayout.repaint();
+        mainCardLayout.revalidate();
     }
 
     // Display the country panel
     private void showCountryPanel(){
-        mainCardLayoutPanel.removeAll();
-        mainCardLayoutPanel.add(countryCard);
-        mainCardLayoutPanel.repaint();
-        mainCardLayoutPanel.revalidate();
+        mainCardLayout.removeAll();
+        mainCardLayout.add(countryCard);
+        mainCardLayout.repaint();
+        mainCardLayout.revalidate();
     }
 
 }
