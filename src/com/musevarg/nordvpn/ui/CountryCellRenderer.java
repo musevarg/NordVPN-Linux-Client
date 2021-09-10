@@ -9,16 +9,17 @@ import com.musevarg.nordvpn.util.CountryLocales;
 public class CountryCellRenderer extends DefaultListCellRenderer {
 
         // Load flag from the res folder, if error load the flag of Taured
-        private ImageIcon loadFlag(String countryCode){
+        public static ImageIcon loadFlag(String countryCode, int width){
+            int height = width - (width/3);
             try{
-                ImageIcon flag = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("res/flags/" + countryCode + ".png")));
-                Image tempImage = flag.getImage().getScaledInstance(30, 20,  java.awt.Image.SCALE_SMOOTH); // Resize image
+                ImageIcon flag = new ImageIcon(Objects.requireNonNull(CountryCellRenderer.class.getClassLoader().getResource("res/flags/" + countryCode + ".png")));
+                Image tempImage = flag.getImage().getScaledInstance(width, height,  java.awt.Image.SCALE_SMOOTH); // Resize image
                 flag = new ImageIcon(tempImage);
                 return flag;
             } catch (Exception e) {
                 System.out.println(countryCode + " - " + e);
-                ImageIcon flag = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("res/flags/ad.png")));
-                Image tempImage = flag.getImage().getScaledInstance(30, 20,  java.awt.Image.SCALE_SMOOTH); // Resize image
+                ImageIcon flag = new ImageIcon(Objects.requireNonNull(CountryCellRenderer.class.getClassLoader().getResource("res/flags/ad.png")));
+                Image tempImage = flag.getImage().getScaledInstance(width, height,  java.awt.Image.SCALE_SMOOTH); // Resize image
                 flag = new ImageIcon(tempImage);
                 return flag;
             }
@@ -30,7 +31,7 @@ public class CountryCellRenderer extends DefaultListCellRenderer {
 
             JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             String countryCode = CountryLocales.getCountryCode(label.getText());
-            label.setIcon(loadFlag(countryCode.toLowerCase()));
+            label.setIcon(loadFlag(countryCode.toLowerCase(), 30));
             label.setHorizontalTextPosition(JLabel.RIGHT);
             return label;
 

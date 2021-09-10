@@ -1,5 +1,6 @@
 package com.musevarg.nordvpn.ui;
 
+import com.musevarg.nordvpn.util.CountryLocales;
 import com.musevarg.nordvpn.vpn.NordVPN;
 
 import javax.swing.*;
@@ -102,6 +103,15 @@ public class Client extends JFrame {
             lcl.next(leftCardLayout);
             isCountryPanelShowing = true;
         }
+        fetchCountryDetails();
+    }
+    
+    // Get country details
+    private void fetchCountryDetails(){
+        String countryCode = CountryLocales.getCountryCode(countryList.getSelectedValue());
+        ImageIcon flag = CountryCellRenderer.loadFlag(countryCode.toLowerCase(), 45);
+        flagLabelLeft.setIcon(flag);
+        countryLabelLeft.setText(countryList.getSelectedValue());
     }
 
     // Toggle default buttons (left cardlayout)

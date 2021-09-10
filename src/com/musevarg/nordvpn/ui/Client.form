@@ -107,7 +107,7 @@
           <grid id="89dd0" binding="leftCardLayout" layout-manager="CardLayout" hgap="0" vgap="0">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <minimum-size width="-1" height="250"/>
+                <minimum-size width="-1" height="200"/>
               </grid>
             </constraints>
             <properties/>
@@ -171,19 +171,24 @@
                     <children>
                       <component id="25356" class="javax.swing.JLabel" binding="flagLabelLeft">
                         <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="-1" height="50"/>
+                          </grid>
                         </constraints>
                         <properties>
                           <horizontalAlignment value="0"/>
                           <horizontalTextPosition value="0"/>
-                          <text value="Flag" noi18n="true"/>
+                          <text value="" noi18n="true"/>
                         </properties>
                       </component>
                       <component id="757f8" class="javax.swing.JLabel" binding="countryLabelLeft">
                         <constraints>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="-1" height="50"/>
+                          </grid>
                         </constraints>
                         <properties>
+                          <font style="1"/>
                           <horizontalAlignment value="0"/>
                           <horizontalTextPosition value="0"/>
                           <text value="Country" noi18n="true"/>
@@ -235,7 +240,7 @@
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
-                          <text value="Connect to..." noi18n="true"/>
+                          <text value="C&amp;onnect to..." noi18n="true"/>
                         </properties>
                       </component>
                       <component id="d6c1e" class="javax.swing.JButton" binding="backButton" default-binding="true">
@@ -243,7 +248,7 @@
                           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
-                          <text value="Back" noi18n="true"/>
+                          <text value="B&amp;ack" noi18n="true"/>
                         </properties>
                       </component>
                     </children>
