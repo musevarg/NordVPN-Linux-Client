@@ -24,7 +24,7 @@ class UtilTest {
         assertEquals("ZA", code);
     }
 
-    /*@Test
+    /*@Test // NOT A TEST -- Used to display all countries from the Java locales
     public void countryList(){
         CountryLocales.printCountries();
     }*/
