@@ -2,17 +2,15 @@ package com.musevarg.nordvpn.vpn;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class NordVPNTest {
 
-    NordVPN nordVPN = NordVPN.getInstance();
+    NordVPNCommands nordVPN = NordVPNCommands.getInstance();
 
     @Test //Ensure that the NordVPN class can only be instantiated once
     public void singletonTest() {
-        NordVPN nordVPN2 = NordVPN.getInstance();
+        NordVPNCommands nordVPN2 = NordVPNCommands.getInstance();
         assertEquals(nordVPN.hashCode(), nordVPN2.hashCode());
     }
 
@@ -42,19 +40,19 @@ class NordVPNTest {
 
     @Test // Fetch country list
     public void getCountries(){
-        String[] response = nordVPN.countries();
+        String[] response = nordVPN.getCountries();
         assertTrue(response.length > 0);
     }
 
     @Test // Fetch city list (at time of test france has only 2 cities)
     public void getCitiesFrance(){
-        String[] response = nordVPN.cities("France");
+        String[] response = nordVPN.getCities("France");
         assertEquals(2, response.length);
     }
 
     @Test // Fetch city list (at time of test Belgium has only 1 city)
     public void getCitiesBelgium(){
-        String[] response = nordVPN.cities("Belgium");
+        String[] response = nordVPN.getCities("Belgium");
         assertEquals(1, response.length);
     }
 

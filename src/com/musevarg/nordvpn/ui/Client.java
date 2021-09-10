@@ -1,17 +1,16 @@
 package com.musevarg.nordvpn.ui;
 
 import com.musevarg.nordvpn.util.CountryLocales;
-import com.musevarg.nordvpn.vpn.NordVPN;
+import com.musevarg.nordvpn.vpn.NordVPNCommands;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.util.Objects;
 
 public class Client extends JFrame {
 
-    private NordVPN nordVPN = NordVPN.getInstance();
-    private String[] countries = nordVPN.countries();
+    private NordVPNCommands nordVPN = NordVPNCommands.getInstance();
+    private String[] countries = nordVPN.getCountries();
     private JButton connectButton;
     private JPanel mainPanel;
     private JPanel leftPanel;
@@ -148,7 +147,7 @@ public class Client extends JFrame {
     // Fetch city list in a separate thread
     private void getCityList(String country){
         new Thread(() -> {
-            String[] cities = nordVPN.cities(country);
+            String[] cities = nordVPN.getCities(country);
             DefaultListModel<String> listModel = new DefaultListModel<>();
             for (String c : cities) {
                 String city = c.replace("_", " ");

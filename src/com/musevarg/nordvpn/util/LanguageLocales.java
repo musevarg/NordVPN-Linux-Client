@@ -1,7 +1,5 @@
 package com.musevarg.nordvpn.util;
 
-import com.musevarg.nordvpn.vpn.NordVPN;
-
 import java.util.Locale;
 
 public class LanguageLocales {
