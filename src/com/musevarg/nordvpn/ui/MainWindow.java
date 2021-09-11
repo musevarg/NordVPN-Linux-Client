@@ -57,7 +57,6 @@ public class MainWindow extends JFrame {
         generateCountryAndCityList();
 
         // Show main panel
-        //showDefaultPanel();
         initCards();
     }
 
@@ -116,12 +115,21 @@ public class MainWindow extends JFrame {
         countryList.addListSelectionListener(e -> {
             if(e.getValueIsAdjusting()){
                 mwl.createCityList(cityList, countryList.getSelectedIndex(), countryConnectBtn);
+                mwl.getFlagAndCountryName(countryFlagLabel, countryNameLabel, countryList.getSelectedValue());
+            }
+        });
+
+        // Action listener on city list element click
+        cityList.addListSelectionListener(e -> {
+            if(e.getValueIsAdjusting()){
+                mwl.setCityConnectBtnText(countryConnectBtn, cityList.getSelectedValue());
             }
         });
     }
 
     /*
-     * THE METHODS BELOW ARE USED TO SHOW A SPECIFIC PANEL (CARD)
+     * THE METHODS BELOW ARE USED TO RECREATE THE CARD LAYOUT
+     * AND SHOW A SPECIFIC PANEL (CARD)
      */
 
     private void initCards(){
