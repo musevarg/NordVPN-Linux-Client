@@ -73,6 +73,7 @@ public class MainWindowLogic {
         String countryCode = CountryLocales.getCountryCode(country);
         ImageIcon flag = CountryCellRenderer.loadFlag(countryCode.toLowerCase(), 45);
         countryFlagLabel.setIcon(flag);
+        countryFlagLabel.setBorder(BorderFactory.createLineBorder(Color.black));
         countryNameLabel.setText(country);
     }
 
