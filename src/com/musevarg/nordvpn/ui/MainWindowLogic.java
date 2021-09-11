@@ -11,8 +11,8 @@ public class MainWindowLogic {
 
     public NordVPN nordVPN;
     public String[] countries;
-    private MainWindow mainWindow;
-    private ResourceBundle rb;
+    public ResourceBundle rb;
+    private final MainWindow mainWindow;
 
     public MainWindowLogic(MainWindow mainWindow, ResourceBundle rb){
         this.mainWindow = mainWindow;
@@ -25,7 +25,14 @@ public class MainWindowLogic {
      *  THE METHODS BELOW ARE REUSABLE
      */
 
-    public void backButtonText(ResourceBundle rb, JButton backButton){
+    // Set connectBtn txt
+    public void setConnectBtnText(JButton connectBtn) { connectBtn.setText(rb.getString("connectTo")); }
+
+    // Set connectBtn txt and add place it will connect to
+    public void setConnectBtnText(JButton connectBtn, String place) { connectBtn.setText(rb.getString("connectTo") + " " + place); }
+
+    // Set backBtn txt
+    public void backButtonText(JButton backButton){
         backButton.setText(rb.getString("back"));
     }
 
@@ -57,11 +64,6 @@ public class MainWindowLogic {
             cityList.setSelectedIndex(0);
             setConnectBtnText(countryConnectBtn, cityList.getSelectedValue());
         }).start();
-    }
-
-    // Change cityConnectBtn txt
-    public void setConnectBtnText(JButton connectBtn, String city){
-        connectBtn.setText(rb.getString("connectTo") + " " + city);
     }
 
     // get flag and country name to display on the left side
