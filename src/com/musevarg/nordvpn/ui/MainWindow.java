@@ -33,6 +33,15 @@ public class MainWindow extends JFrame {
     private JLabel countryFlagLabel;
     private JLabel countryNameLabel;
     private JLabel pickCityLabel;
+    private JButton settingsBtn;
+    private JPanel groupCard;
+    private JPanel settingsCard;
+    private JPanel settingsPanel;
+    private JPanel settingsCardLayout;
+    private JList<String> settingsList;
+    private JPanel settingsAboutCard;
+    private JPanel settingsLogCard;
+    private JButton settingsBackBtn;
 
     public MainWindow(){
         initComponents();
@@ -52,6 +61,7 @@ public class MainWindow extends JFrame {
         // Button Action Listeners
         initDefaultPanelButtonActions();
         initCountryPanelButtonActions();
+        initSettingsPanelButtonsActions();
 
         // Remaining elements to be generated
         generateCountryAndCityList();
@@ -68,6 +78,7 @@ public class MainWindow extends JFrame {
         this.setTitle(rb.getString("mainTitle"));
         initDefaultPanelText();
         initCountryPanelText();
+        initSettingsPanelText();
     }
 
     /*
@@ -79,13 +90,20 @@ public class MainWindow extends JFrame {
         quickConnBtn.setText(rb.getString("quickConnect"));
         serverCountriesBtn.setText(rb.getString("chooseServerCountry"));
         serverGroupsBtn.setText(rb.getString("chooseServerGroup"));
+        settingsBtn.setText(rb.getString("settings"));
     }
 
     // Init the text in the country panel
     private void initCountryPanelText(){
         pickCityLabel.setText(rb.getString("city"));
         countryConnectBtn.setText(rb.getString("connectCity"));
-        countryBackBtn.setText(rb.getString("back"));
+        mwl.backButtonText(rb, settingsBackBtn);
+    }
+
+    // Init the text in the settings panel
+    private void initSettingsPanelText(){
+        mwl.generateSettingsList(rb, settingsList);
+        mwl.backButtonText(rb, settingsBackBtn);
     }
 
     /*
@@ -95,11 +113,17 @@ public class MainWindow extends JFrame {
     // Init button actions of the default panel
     private void initDefaultPanelButtonActions(){
         serverCountriesBtn.addActionListener(e -> showCountryCard());
+        settingsBtn.addActionListener(e -> showSettingsCard());
     }
 
     // Init button actions of the country panel
     private void initCountryPanelButtonActions(){
         countryBackBtn.addActionListener(e -> showDefaultCard());
+    }
+
+    // Init button actions of the settings panel
+    private void initSettingsPanelButtonsActions(){
+        settingsBackBtn.addActionListener(e -> showDefaultCard());
     }
 
     /*
@@ -136,6 +160,7 @@ public class MainWindow extends JFrame {
         mainCardLayoutPanel.removeAll();
         mainCardLayoutPanel.add("defaultCard", defaultCard);
         mainCardLayoutPanel.add("countryCard", countryCard);
+        mainCardLayoutPanel.add("settingsCard", settingsCard);
         mainCardLayout.show(mainCardLayoutPanel, "defaultCard");
     }
 
@@ -147,6 +172,11 @@ public class MainWindow extends JFrame {
     // Display the country panel
     private void showCountryCard(){
         mainCardLayout.show(mainCardLayoutPanel, "countryCard");
+    }
+
+    // Display the settings panel
+    private void showSettingsCard(){
+        mainCardLayout.show(mainCardLayoutPanel, "settingsCard");
     }
 
 }

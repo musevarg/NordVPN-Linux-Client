@@ -4,6 +4,7 @@ import com.musevarg.nordvpn.util.CountryLocales;
 import com.musevarg.nordvpn.vpn.NordVPN;
 
 import javax.swing.*;
+import java.util.ResourceBundle;
 
 public class MainWindowLogic {
 
@@ -16,8 +17,16 @@ public class MainWindowLogic {
     }
 
     /*
-    * THE METHODS BELOW ARE USED TO CREATE ELEMENTS IN THE COUNTRY CARD
-    */
+     *  THE METHODS BELOW ARE REUSABLE
+     */
+
+    public void backButtonText(ResourceBundle rb, JButton backButton){
+        backButton.setText(rb.getString("back"));
+    }
+
+    /*
+     * THE METHODS BELOW ARE USED TO CREATE ELEMENTS IN THE COUNTRY CARD
+     */
 
     // Populate country list in a separate thread and add list selection listener
     public void createCountryAndCityList(JList<String> countryList, JList<String> cityList){
@@ -58,4 +67,17 @@ public class MainWindowLogic {
         countryNameLabel.setText(country);
     }
 
+
+    /*
+     * THE METHODS BELOW ARE USED TO CREATE ELEMENTS IN THE SETTINGS CARD
+     */
+
+    public void generateSettingsList(ResourceBundle rb, JList<String> settingsList){
+        String[] settings = new String[]{rb.getString("about"), rb.getString("log")};
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (String c : settings) {
+            listModel.addElement(c);
+        }
+        settingsList.setModel(listModel);
+    }
 }
