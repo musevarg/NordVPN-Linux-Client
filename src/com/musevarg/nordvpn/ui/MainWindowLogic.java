@@ -4,14 +4,17 @@ import com.musevarg.nordvpn.util.CountryLocales;
 import com.musevarg.nordvpn.vpn.NordVPN;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ResourceBundle;
 
 public class MainWindowLogic {
 
     public NordVPN nordVPN;
     public String[] countries;
+    private MainWindow mainWindow;
 
-    public MainWindowLogic(){
+    public MainWindowLogic(MainWindow mainWindow){
+        this.mainWindow = mainWindow;
         this.nordVPN = NordVPN.getInstance();
         this.countries = nordVPN.countries();
     }
@@ -72,6 +75,7 @@ public class MainWindowLogic {
      * THE METHODS BELOW ARE USED TO CREATE ELEMENTS IN THE SETTINGS CARD
      */
 
+    // Generate settings list from strings in the resource bundle
     public void generateSettingsList(ResourceBundle rb, JList<String> settingsList){
         String[] settings = new String[]{rb.getString("about"), rb.getString("log")};
         DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -80,4 +84,14 @@ public class MainWindowLogic {
         }
         settingsList.setModel(listModel);
     }
+
+    // Update the log before displaying it to the user
+    public void updateSettingsLog(JTextArea settingsLogTextArea){
+        settingsLogTextArea.setText("");
+        for(String s : nordVPN.getLog()){
+            settingsLogTextArea.append(s + "\n");
+        }
+    }
+
+
 }

@@ -14,7 +14,7 @@ public class MainWindow extends JFrame {
     private ResourceBundle rb;
 
     // Main Window Logic
-    MainWindowLogic mwl = new MainWindowLogic();
+    MainWindowLogic mwl;
 
     // UI elements
     private JPanel mainCardLayoutPanel;
@@ -37,13 +37,17 @@ public class MainWindow extends JFrame {
     private JPanel groupCard;
     private JPanel settingsCard;
     private JPanel settingsPanel;
-    private JPanel settingsCardLayout;
+    private JPanel settingsCardLayoutPanel;
+    private CardLayout settingsCardLayout = (CardLayout) (settingsCardLayoutPanel.getLayout());
     private JList<String> settingsList;
     private JPanel settingsAboutCard;
     private JPanel settingsLogCard;
     private JButton settingsBackBtn;
+    private JLabel settingsAboutLabel;
+    private JTextArea settingsLogTextArea;
 
     public MainWindow(){
+        mwl = new MainWindowLogic(this);
         initComponents();
         this.setSize(600, 400);
         this.setContentPane(mainCardLayoutPanel);
@@ -68,6 +72,9 @@ public class MainWindow extends JFrame {
 
         // Show main panel
         initCards();
+
+        // Init settings card
+        initSettingsCards();
     }
 
     // Init the locale
@@ -95,15 +102,16 @@ public class MainWindow extends JFrame {
 
     // Init the text in the country panel
     private void initCountryPanelText(){
-        pickCityLabel.setText(rb.getString("city"));
+        pickCityLabel.setText("<html><body><p style=\"margin-top:1px;\">"+rb.getString("city")+"</p></body></html>");
         countryConnectBtn.setText(rb.getString("connectCity"));
-        mwl.backButtonText(rb, settingsBackBtn);
+        mwl.backButtonText(rb, countryBackBtn);
     }
 
     // Init the text in the settings panel
     private void initSettingsPanelText(){
         mwl.generateSettingsList(rb, settingsList);
         mwl.backButtonText(rb, settingsBackBtn);
+        settingsAboutLabel.setText(rb.getString("aboutText"));
     }
 
     /*
@@ -123,7 +131,16 @@ public class MainWindow extends JFrame {
 
     // Init button actions of the settings panel
     private void initSettingsPanelButtonsActions(){
-        settingsBackBtn.addActionListener(e -> showDefaultCard());
+        settingsBackBtn.addActionListener(e -> {
+            showSettingsAboutCard();
+            settingsList.setSelectedIndex(0);
+            showDefaultCard();
+        });
+        settingsList.addListSelectionListener( e -> {
+            if(e.getValueIsAdjusting()) {
+                settingsSelectionChanged(settingsList.getSelectedIndex());
+            }
+        });
     }
 
     /*
@@ -178,5 +195,42 @@ public class MainWindow extends JFrame {
     private void showSettingsCard(){
         mainCardLayout.show(mainCardLayoutPanel, "settingsCard");
     }
+
+
+    /*
+     * THE METHODS BELOW ARE USED TO GENERATE THE SETTINGS CARDS
+     */
+
+    // Init the settings card layout
+    private void initSettingsCards(){
+        settingsCardLayoutPanel.removeAll();
+        settingsCardLayoutPanel.add("settingsAboutCard", settingsAboutCard);
+        settingsCardLayoutPanel.add("settingsLogCard", settingsLogCard);
+        settingsCardLayout.show(settingsCardLayoutPanel, "settingsAboutCard");
+        settingsList.setSelectedIndex(0);
+    }
+
+    // Display the about card
+    private void showSettingsAboutCard() { settingsCardLayout.show(settingsCardLayoutPanel, "settingsAboutCard"); }
+
+    // Display the log card
+    private void showSettingsLogCard() {
+        mwl.updateSettingsLog(settingsLogTextArea);
+        settingsCardLayout.show(settingsCardLayoutPanel, "settingsLogCard");
+    }
+
+    // Change the settings card based on the user's selection
+    private void settingsSelectionChanged(int settingsSelectionIndex){
+        switch (settingsSelectionIndex){
+            case 0:
+                showSettingsAboutCard();
+                break;
+            case 1:
+                showSettingsLogCard();
+                break;
+        }
+    }
+
+
 
 }
