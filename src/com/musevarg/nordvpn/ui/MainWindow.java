@@ -5,6 +5,7 @@ import com.musevarg.nordvpn.util.LanguageLocales;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainWindow extends JFrame {
@@ -53,6 +54,7 @@ public class MainWindow extends JFrame {
 
     public MainWindow(){
         initComponents();
+        setApplicationIcon();
         this.setSize(600, 400);
         this.setContentPane(mainCardLayoutPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,6 +92,12 @@ public class MainWindow extends JFrame {
     private void initLocale(Locale locale){
         currentLocale = locale;
         rb = ResourceBundle.getBundle("language", currentLocale);
+    }
+
+    // Load app icon
+    private void setApplicationIcon(){
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(CountryCellRenderer.class.getClassLoader().getResource("res/img/icon.png")));
+        this.setIconImage(icon.getImage());
     }
 
     // Init the text based on locale language
