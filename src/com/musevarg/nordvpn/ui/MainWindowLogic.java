@@ -81,6 +81,7 @@ public class MainWindowLogic {
      * THE METHODS BELOW ARE USED CREATE ELEMENTS IN THE SERVER GROUPS CARD
      */
 
+    // Populate group list
     public void createServerGroupsList(JList<String> groupList){
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (String g : groups) {
@@ -91,6 +92,13 @@ public class MainWindowLogic {
         groupList.setCellRenderer(new ServerGroupCellRenderer());
     }
 
+    // get icon and group name to display on the left side
+    public void getIconAndGroupName(JLabel groupIconLabel, JLabel groupNameLabel, String group){
+        String iconName = ServerGroupCellRenderer.groupIcons().get(group.trim());
+        ImageIcon icon = ServerGroupCellRenderer.loadIcon(iconName, 40);
+        groupIconLabel.setIcon(icon);
+        groupNameLabel.setText(group);
+    }
 
 
 

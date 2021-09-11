@@ -130,7 +130,7 @@ public class MainWindow extends JFrame {
 
     // Init the text in the group panel
     private void initGroupPanelText(){
-        mwl.setConnectBtnText(groupConnectBtn);
+        groupConnectBtn.setText(rb.getString("connectToGroup"));
         mwl.backButtonText(groupBackBtn);
     }
 
@@ -160,6 +160,11 @@ public class MainWindow extends JFrame {
     // Init button actions of the server group panel
     private void initGroupPanelButtonsActions(){
         groupBackBtn.addActionListener(e -> showDefaultCard());
+        groupList.addListSelectionListener( e -> {
+            if(e.getValueIsAdjusting()) {
+                mwl.getIconAndGroupName(groupLogoLabel, groupNameLabel, groupList.getSelectedValue());
+            }
+        });
     }
 
     // Init button actions of the settings panel
@@ -226,6 +231,11 @@ public class MainWindow extends JFrame {
 
     // Display the country panel
     private void showCountryCard(){
+        if (countryList.getSelectedIndex() == -1){
+            countryList.setSelectedIndex(0);
+            mwl.createCityList(cityList, countryList.getSelectedIndex(), countryConnectBtn);
+            mwl.getFlagAndCountryName(countryFlagLabel, countryNameLabel, countryList.getSelectedValue());
+        }
         mainCardLayout.show(mainCardLayoutPanel, "countryCard");
     }
 

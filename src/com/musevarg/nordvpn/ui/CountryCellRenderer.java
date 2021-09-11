@@ -60,7 +60,7 @@ class ServerGroupCellRenderer extends DefaultListCellRenderer {
 
     }
 
-    private Map<String, String> groupIcons(){
+    public static Map<String, String> groupIcons(){
         Map<String, String> groupIcons = new HashMap<>();
         groupIcons.put("Africa The Middle East And India", "africa.png");
         groupIcons.put("Asia Pacific", "asia.png");
@@ -70,15 +70,15 @@ class ServerGroupCellRenderer extends DefaultListCellRenderer {
         groupIcons.put("Onion Over VPN", "onion.png");
         groupIcons.put("P2P", "p2p.png");
         groupIcons.put("Standard VPN Servers", "vpn.png");
-        groupIcons.put("The Americas", "americas.png");
+        groupIcons.put("The Americas", "america.png");
         return groupIcons;
     }
 
     @Override // Create custom label for the country list, including an icon and a label
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-        String icon = groupIcons().get(label.getText());
-        label.setIcon(loadIcon(icon, 30));
+        String icon = groupIcons().get(label.getText().trim());
+        label.setIcon(loadIcon(icon, 25));
         label.setHorizontalTextPosition(JLabel.RIGHT);
         return label;
 
