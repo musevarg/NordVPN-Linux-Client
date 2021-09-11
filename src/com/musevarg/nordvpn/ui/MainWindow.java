@@ -3,6 +3,7 @@ package com.musevarg.nordvpn.ui;
 import com.musevarg.nordvpn.util.LanguageLocales;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -16,7 +17,8 @@ public class MainWindow extends JFrame {
     MainWindowLogic mwl = new MainWindowLogic();
 
     // UI elements
-    private JPanel mainCardLayout;
+    private JPanel mainCardLayoutPanel;
+    private CardLayout mainCardLayout = (CardLayout)(mainCardLayoutPanel.getLayout());
     private JPanel defaultCard;
     private JButton quickConnBtn;
     private JButton serverCountriesBtn;
@@ -35,7 +37,7 @@ public class MainWindow extends JFrame {
     public MainWindow(){
         initComponents();
         this.setSize(600, 400);
-        this.setContentPane(mainCardLayout);
+        this.setContentPane(mainCardLayoutPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationByPlatform(true);
         this.setVisible(true);
@@ -52,10 +54,11 @@ public class MainWindow extends JFrame {
         initCountryPanelButtonActions();
 
         // Remaining elements to be generated
-        generateCountryList();
+        generateCountryAndCityList();
 
         // Show main panel
-        showDefaultPanel();
+        //showDefaultPanel();
+        initCards();
     }
 
     // Init the locale
@@ -92,12 +95,12 @@ public class MainWindow extends JFrame {
 
     // Init button actions of the default panel
     private void initDefaultPanelButtonActions(){
-        serverCountriesBtn.addActionListener(e -> showCountryPanel());
+        serverCountriesBtn.addActionListener(e -> showCountryCard());
     }
 
     // Init button actions of the country panel
     private void initCountryPanelButtonActions(){
-        countryBackBtn.addActionListener(e -> showDefaultPanel());
+        countryBackBtn.addActionListener(e -> showDefaultCard());
     }
 
     /*
@@ -106,28 +109,36 @@ public class MainWindow extends JFrame {
      */
 
     // Generate country list with flags and labels
-    private void generateCountryList(){
-        mwl.createCountryList(countryList);
+    private void generateCountryAndCityList(){
+        mwl.createCountryAndCityList(countryList, cityList);
+
+        // Action listener on country list element click
+        countryList.addListSelectionListener(e -> {
+            if(e.getValueIsAdjusting()){
+                mwl.createCityList(cityList, countryList.getSelectedIndex(), countryConnectBtn);
+            }
+        });
     }
 
     /*
      * THE METHODS BELOW ARE USED TO SHOW A SPECIFIC PANEL (CARD)
      */
 
+    private void initCards(){
+        mainCardLayoutPanel.removeAll();
+        mainCardLayoutPanel.add("defaultCard", defaultCard);
+        mainCardLayoutPanel.add("countryCard", countryCard);
+        mainCardLayout.show(mainCardLayoutPanel, "defaultCard");
+    }
+
     // Display the default panel
-    private void showDefaultPanel(){
-        mainCardLayout.removeAll();
-        mainCardLayout.add(defaultCard);
-        mainCardLayout.repaint();
-        mainCardLayout.revalidate();
+    private void showDefaultCard(){
+        mainCardLayout.show(mainCardLayoutPanel, "defaultCard");
     }
 
     // Display the country panel
-    private void showCountryPanel(){
-        mainCardLayout.removeAll();
-        mainCardLayout.add(countryCard);
-        mainCardLayout.repaint();
-        mainCardLayout.revalidate();
+    private void showCountryCard(){
+        mainCardLayout.show(mainCardLayoutPanel, "countryCard");
     }
 
 }
