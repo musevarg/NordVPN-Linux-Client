@@ -11,6 +11,7 @@ public class MainWindowLogic {
 
     public NordVPN nordVPN;
     public String[] countries;
+    public String[] groups;
     public ResourceBundle rb;
     private final MainWindow mainWindow;
 
@@ -19,6 +20,7 @@ public class MainWindowLogic {
         this.rb = rb;
         this.nordVPN = NordVPN.getInstance();
         this.countries = nordVPN.countries();
+        this.groups = nordVPN.groups();
     }
 
     /*
@@ -79,7 +81,15 @@ public class MainWindowLogic {
      * THE METHODS BELOW ARE USED CREATE ELEMENTS IN THE SERVER GROUPS CARD
      */
 
-    
+    public void createServerGroupsList(JList<String> groupList){
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (String g : groups) {
+            String group = g.replace("_", " ");
+            listModel.addElement(group);
+        }
+        groupList.setModel(listModel);
+        groupList.setCellRenderer(new ServerGroupCellRenderer());
+    }
 
 
 

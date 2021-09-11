@@ -56,6 +56,15 @@ class NordVPNTest {
         assertEquals(1, response.length);
     }
 
+    @Test // Fetch server groups list
+    public void getGroups(){
+        String[] response = nordVpnCommands.getServerGroups();
+        for(String s : response){
+            System.out.println(s);
+        }
+        assertTrue(response.length > 0);
+    }
+
     // Check if response contains the expected String
     private Boolean isCorrectResponse(String response, String expected){
         return response.toLowerCase().contains(expected);

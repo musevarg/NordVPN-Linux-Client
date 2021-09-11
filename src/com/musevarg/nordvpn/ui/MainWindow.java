@@ -77,6 +77,7 @@ public class MainWindow extends JFrame {
 
         // Remaining elements to be generated
         generateCountryAndCityList();
+        generateServerGroupsList();
 
         // Show main panel
         initCards();
@@ -198,6 +199,10 @@ public class MainWindow extends JFrame {
                 mwl.setConnectBtnText(countryConnectBtn, cityList.getSelectedValue());
             }
         });
+    }
+
+    private void generateServerGroupsList(){
+        mwl.createServerGroupsList(groupList);
     }
 
     /*
