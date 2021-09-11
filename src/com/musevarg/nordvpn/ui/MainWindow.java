@@ -45,9 +45,13 @@ public class MainWindow extends JFrame {
     private JButton settingsBackBtn;
     private JLabel settingsAboutLabel;
     private JTextArea settingsLogTextArea;
+    private JList<String> groupList;
+    private JLabel groupLogoLabel;
+    private JLabel groupNameLabel;
+    private JButton groupConnectBtn;
+    private JButton groupBackBtn;
 
     public MainWindow(){
-        mwl = new MainWindowLogic(this);
         initComponents();
         this.setSize(600, 400);
         this.setContentPane(mainCardLayoutPanel);
@@ -61,6 +65,12 @@ public class MainWindow extends JFrame {
     private void initComponents(){
         // Init locale
         initLocale(LanguageLocales.enLocale);
+
+        // Create instance of main window logic
+        mwl = new MainWindowLogic(this, rb);
+
+        // Init text of the UI
+        initText();
 
         // Button Action Listeners
         initDefaultPanelButtonActions();
@@ -81,7 +91,10 @@ public class MainWindow extends JFrame {
     private void initLocale(Locale locale){
         currentLocale = locale;
         rb = ResourceBundle.getBundle("language", currentLocale);
+    }
 
+    // Init the text based on locale language
+    private void initText(){
         this.setTitle(rb.getString("mainTitle"));
         initDefaultPanelText();
         initCountryPanelText();
@@ -103,8 +116,14 @@ public class MainWindow extends JFrame {
     // Init the text in the country panel
     private void initCountryPanelText(){
         pickCityLabel.setText("<html><body><p style=\"margin-top:1px;\">"+rb.getString("city")+"</p></body></html>");
-        countryConnectBtn.setText(rb.getString("connectCity"));
+        countryConnectBtn.setText(rb.getString("connectTo"));
         mwl.backButtonText(rb, countryBackBtn);
+    }
+
+    // Init the text in the group panel
+    private void initGroupPanelText(){
+
+        mwl.backButtonText(rb, groupBackBtn);
     }
 
     // Init the text in the settings panel
@@ -163,7 +182,7 @@ public class MainWindow extends JFrame {
         // Action listener on city list element click
         cityList.addListSelectionListener(e -> {
             if(e.getValueIsAdjusting()){
-                mwl.setCityConnectBtnText(countryConnectBtn, cityList.getSelectedValue());
+                mwl.setConnectBtnText(countryConnectBtn, cityList.getSelectedValue());
             }
         });
     }

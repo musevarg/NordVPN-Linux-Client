@@ -12,9 +12,11 @@ public class MainWindowLogic {
     public NordVPN nordVPN;
     public String[] countries;
     private MainWindow mainWindow;
+    private ResourceBundle rb;
 
-    public MainWindowLogic(MainWindow mainWindow){
+    public MainWindowLogic(MainWindow mainWindow, ResourceBundle rb){
         this.mainWindow = mainWindow;
+        this.rb = rb;
         this.nordVPN = NordVPN.getInstance();
         this.countries = nordVPN.countries();
     }
@@ -53,13 +55,13 @@ public class MainWindowLogic {
             }
             cityList.setModel(listModel);
             cityList.setSelectedIndex(0);
-            setCityConnectBtnText(countryConnectBtn, cityList.getSelectedValue());
+            setConnectBtnText(countryConnectBtn, cityList.getSelectedValue());
         }).start();
     }
 
     // Change cityConnectBtn txt
-    public void setCityConnectBtnText(JButton countryConnectBtn, String city){
-        countryConnectBtn.setText("Connect to " + city);
+    public void setConnectBtnText(JButton connectBtn, String city){
+        connectBtn.setText(rb.getString("connectTo") + " " + city);
     }
 
     // get flag and country name to display on the left side
