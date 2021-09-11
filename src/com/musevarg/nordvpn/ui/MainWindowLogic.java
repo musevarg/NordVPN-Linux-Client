@@ -76,6 +76,15 @@ public class MainWindowLogic {
 
 
     /*
+     * THE METHODS BELOW ARE USED CREATE ELEMENTS IN THE SERVER GROUPS CARD
+     */
+
+    
+
+
+
+
+    /*
      * THE METHODS BELOW ARE USED TO CREATE ELEMENTS IN THE SETTINGS CARD
      */
 

@@ -117,6 +117,18 @@ public class NordVPNCommands {
         return response.split(", ");
     }
 
+    // Fetch server groups
+    public String[] getServerGroups(){
+        String response;
+        try{
+            response = runCommand("nordvpn groups");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = "Something went wrong";
+        }
+        return response.split(", ");
+    }
+
     // Get a timestamp for the log
     private static String getTimestamp(){
         return "[" + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()) + "] ";

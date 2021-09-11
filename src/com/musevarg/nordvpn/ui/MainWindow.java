@@ -14,7 +14,7 @@ public class MainWindow extends JFrame {
     private ResourceBundle rb;
 
     // Main Window Logic
-    MainWindowLogic mwl;
+    private MainWindowLogic mwl;
 
     // UI elements
     private JPanel mainCardLayoutPanel;

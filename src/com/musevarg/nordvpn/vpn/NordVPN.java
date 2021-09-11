@@ -65,6 +65,11 @@ public class NordVPN {
         return vpnCommands.getCities(country);
     }
 
+    // Fetch server groups list
+    public String[] groups(){
+        return vpnCommands.getServerGroups();
+    }
+
     /*
      * GET COMMANDS AND RESPONSE LOG
      */
