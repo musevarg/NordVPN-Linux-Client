@@ -1,6 +1,5 @@
 package com.musevarg.nordvpn;
 
-import com.musevarg.nordvpn.ui.Client;
 import com.musevarg.nordvpn.ui.MainWindow;
 
 import javax.swing.*;
