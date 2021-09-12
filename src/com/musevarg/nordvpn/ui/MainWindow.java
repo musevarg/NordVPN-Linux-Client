@@ -18,8 +18,8 @@ public class MainWindow extends JFrame {
     private MainWindowLogic mwl;
 
     // UI elements
-    private JPanel mainCardLayoutPanel;
-    private CardLayout mainCardLayout = (CardLayout)(mainCardLayoutPanel.getLayout());
+    public JPanel mainCardLayoutPanel;
+    public CardLayout mainCardLayout = (CardLayout)(mainCardLayoutPanel.getLayout());
     private JPanel defaultCard;
     private JButton quickConnBtn;
     private JButton serverCountriesBtn;
@@ -155,6 +155,7 @@ public class MainWindow extends JFrame {
 
     // Init button actions of the default panel
     private void initDefaultPanelButtonActions(){
+        quickConnBtn.addActionListener(e -> mwl.quickConnectButtonPressed(quickConnBtn, serverCountriesBtn, serverGroupsBtn, statusLabel));
         serverCountriesBtn.addActionListener(e -> showCountryCard());
         serverGroupsBtn.addActionListener(e -> showGroupCard());
         settingsBtn.addActionListener(e -> showSettingsCard());

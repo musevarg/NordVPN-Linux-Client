@@ -1,7 +1,7 @@
 package com.musevarg.nordvpn.ui;
 
 import com.musevarg.nordvpn.util.CountryLocales;
-import com.musevarg.nordvpn.vpn.NordVPNCommands;
+import com.musevarg.nordvpn.vpn.NordVPN;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class Client extends JFrame {
 
-    private NordVPNCommands nordVPN = NordVPNCommands.getInstance();
+    private NordVPN nordVPN = NordVPN.getInstance();
     private String[] countries = nordVPN.getCountries();
     private JButton connectButton;
     private JPanel mainPanel;

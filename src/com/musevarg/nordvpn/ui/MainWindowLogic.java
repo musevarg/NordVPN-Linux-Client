@@ -19,23 +19,75 @@ public class MainWindowLogic {
         this.mainWindow = mainWindow;
         this.rb = rb;
         this.nordVPN = NordVPN.getInstance();
-        this.countries = nordVPN.countries();
-        this.groups = nordVPN.groups();
+        this.countries = nordVPN.getCountries();
+        this.groups = nordVPN.getServerGroups();
     }
+
+    /*
+     * THE METHODS BELOW HANDLE CONNECTIONS TO THE VPN
+     */
+
+    public void quickConnectButtonPressed(JButton quickConnectBtn, JButton serverCountryBtn, JButton serverGroupsBtn, JLabel statusLabel){
+        new Thread(() -> {
+            if (nordVPN.isConnected){
+                updateUiWhileConnecting(false, quickConnectBtn, serverCountryBtn, serverGroupsBtn, statusLabel);
+                nordVPN.disconnect();
+                setQuickConnectBtnText(quickConnectBtn, rb.getString("quickConnect"));
+                enableButtons(quickConnectBtn, serverCountryBtn, serverGroupsBtn);
+            } else {
+                updateUiWhileConnecting(true, quickConnectBtn, serverCountryBtn, serverGroupsBtn, statusLabel);
+                nordVPN.connect();
+                setQuickConnectBtnText(quickConnectBtn, rb.getString("disconnect"));
+                enableButtons(quickConnectBtn, serverCountryBtn, serverGroupsBtn);
+            }
+        }).start();
+    }
+
+
 
     /*
      *  THE METHODS BELOW ARE REUSABLE
      */
 
-    // Set connectBtn txt
+    // Set quickConnectBtn txt
+    public void setQuickConnectBtnText(JButton quickConnectBtn, String text) { quickConnectBtn.setText(text); }
+
+    // Set connectBtn txt (country and group cards)
     public void setConnectBtnText(JButton connectBtn) { connectBtn.setText(rb.getString("connectTo")); }
 
-    // Set connectBtn txt and add place it will connect to
+    // Set connectBtn txt and add place it will connect to (country and group cards)
     public void setConnectBtnText(JButton connectBtn, String place) { connectBtn.setText(rb.getString("connectTo") + " " + place); }
 
     // Set backBtn txt
     public void backButtonText(JButton backButton){
         backButton.setText(rb.getString("back"));
+    }
+
+    // Update UI while connecting
+    private void updateUiWhileConnecting(boolean isConnecting, JButton quickConnectBtn, JButton serverCountryBtn, JButton serverGroupsBtn, JLabel statusLabel){
+        disableButtons(quickConnectBtn, serverCountryBtn, serverGroupsBtn);
+        if (isConnecting){
+            quickConnectBtn.setText(rb.getString("connecting"));
+            statusLabel.setText(rb.getString("connecting"));
+        } else {
+            statusLabel.setText(rb.getString("disconnecting"));
+            quickConnectBtn.setText(rb.getString("disconnecting"));
+        }
+        mainWindow.mainCardLayout.show(mainWindow.mainCardLayoutPanel, "defaultCard");
+    }
+
+    // Disable default panel buttons
+    private void disableButtons(JButton quickConnectBtn, JButton serverCountryBtn, JButton serverGroupsBtn) {
+        quickConnectBtn.setEnabled(false);
+        serverCountryBtn.setEnabled(false);
+        serverGroupsBtn.setEnabled(false);
+    }
+
+    // Enable default panel buttons
+    private void enableButtons(JButton quickConnectBtn, JButton serverCountryBtn, JButton serverGroupsBtn) {
+        quickConnectBtn.setEnabled(true);
+        serverCountryBtn.setEnabled(true);
+        serverGroupsBtn.setEnabled(true);
     }
 
     /*
@@ -56,7 +108,7 @@ public class MainWindowLogic {
     // Populate city list in a separate thread
     public void createCityList(JList<String> cityList, int countryIndex, JButton countryConnectBtn){
         new Thread(() ->{
-            String[] cities = nordVPN.cities(countries[countryIndex]);
+            String[] cities = nordVPN.getCities(countries[countryIndex]);
             DefaultListModel<String> listModel = new DefaultListModel<>();
             for (String c : cities) {
                 String city = c.replace("_", " ");

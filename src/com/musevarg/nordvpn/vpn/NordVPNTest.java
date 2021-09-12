@@ -6,11 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class NordVPNTest {
 
-    NordVPNCommands nordVpnCommands = NordVPNCommands.getInstance();
+    NordVPN nordVpnCommands = NordVPN.getInstance();
 
     @Test //Ensure that the NordVPN class can only be instantiated once
     public void singletonTest() {
-        NordVPNCommands nordVPN2 = NordVPNCommands.getInstance();
+        NordVPN nordVPN2 = NordVPN.getInstance();
         assertEquals(nordVpnCommands.hashCode(), nordVPN2.hashCode());
     }
 
