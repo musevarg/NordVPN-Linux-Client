@@ -2,10 +2,15 @@ package com.musevarg.nordvpn.ui;
 
 import com.musevarg.nordvpn.util.CountryLocales;
 import com.musevarg.nordvpn.vpn.NordVPN;
+import com.musevarg.nordvpn.vpn.VpnStatus;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ResourceBundle;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class MainWindowLogic {
 
@@ -14,6 +19,8 @@ public class MainWindowLogic {
     public String[] groups;
     public ResourceBundle rb;
     private final MainWindow mainWindow;
+    private VpnStatus status = new VpnStatus();
+    private ScheduledExecutorService refreshStatusService;
 
     public MainWindowLogic(MainWindow mainWindow, ResourceBundle rb){
         this.mainWindow = mainWindow;
@@ -27,16 +34,21 @@ public class MainWindowLogic {
      * THE METHODS BELOW HANDLE CONNECTIONS TO THE VPN
      */
 
-    public void quickConnectButtonPressed(JButton quickConnectBtn, JButton serverCountryBtn, JButton serverGroupsBtn, JLabel statusLabel){
+    public void quickConnectButtonPressed(JButton quickConnectBtn, JButton serverCountryBtn, JButton serverGroupsBtn, JLabel statusLabel, JLabel[] statusValuesLabels){
         new Thread(() -> {
             if (nordVPN.isConnected){
                 updateUiWhileConnecting(false, quickConnectBtn, serverCountryBtn, serverGroupsBtn, statusLabel);
                 nordVPN.disconnect();
+                fetchStatus(statusValuesLabels);
+                refreshStatusService.shutdown();
+                clearStatusValues(statusValuesLabels);
                 setQuickConnectBtnText(quickConnectBtn, rb.getString("quickConnect"));
                 enableButtons(quickConnectBtn, serverCountryBtn, serverGroupsBtn);
             } else {
                 updateUiWhileConnecting(true, quickConnectBtn, serverCountryBtn, serverGroupsBtn, statusLabel);
                 nordVPN.connect();
+                fetchStatus(statusValuesLabels);
+                refreshStatusService = refreshStatusService(5, statusValuesLabels);
                 setQuickConnectBtnText(quickConnectBtn, rb.getString("disconnect"));
                 enableButtons(quickConnectBtn, serverCountryBtn, serverGroupsBtn);
             }
@@ -104,6 +116,47 @@ public class MainWindowLogic {
         statusLabels[6].setText(rb.getString("sTechLabel"));
         statusLabels[7].setText(rb.getString("sProtocolLabel"));
         statusLabels[8].setText(rb.getString("sUptimeLabel"));
+    }
+
+    public void assignStatusValues(JLabel[] statusValuesLabels){
+        statusValuesLabels[0].setText(status.getServer());
+        statusValuesLabels[1].setText(status.getCountry());
+        statusValuesLabels[2].setText(status.getCity());
+        statusValuesLabels[3].setText(status.getIp());
+        statusValuesLabels[4].setText(status.getTechnology());
+        statusValuesLabels[5].setText(status.getProtocol());
+        statusValuesLabels[6].setText(status.getUptime());
+        statusValuesLabels[7].setText(status.getReceived());
+        statusValuesLabels[8].setText(status.getSent());
+    }
+
+    public void clearStatusValues(JLabel[] statusValuesLabels){
+        statusValuesLabels[0].setText("");
+        statusValuesLabels[1].setText("");
+        statusValuesLabels[2].setText("");
+        statusValuesLabels[3].setText("");
+        statusValuesLabels[4].setText("");
+        statusValuesLabels[5].setText("");
+        statusValuesLabels[6].setText("");
+        statusValuesLabels[7].setText("-");
+        statusValuesLabels[8].setText("-");
+    }
+
+    private void fetchStatus(JLabel[] statusValuesLabels){
+        status = nordVPN.status();
+        assignStatusValues(statusValuesLabels);
+    }
+
+    // Method that refreshes the status every specific time interval
+    public ScheduledExecutorService refreshStatusService(int seconds, JLabel[] statusValuesLabels){
+        Runnable runnable = () -> {
+            status = nordVPN.status();
+            assignStatusValues(statusValuesLabels);
+            System.out.println("Refresh status ran");
+        };
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(runnable, 0, seconds, TimeUnit.SECONDS);
+        return service;
     }
 
     /*

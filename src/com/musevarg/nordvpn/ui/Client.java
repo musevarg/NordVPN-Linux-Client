@@ -207,7 +207,7 @@ public class Client extends JFrame {
     // Update UI after connecting or disconnecting
     private void updateUiComponents(){
         loadingLabel.setIcon(null);
-        String status = nordVPN.status();
+        String status = "";
         nordVPN.isConnected = status.contains("Connected");
         statusText.setText(status);
 

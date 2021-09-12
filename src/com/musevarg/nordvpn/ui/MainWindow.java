@@ -71,6 +71,7 @@ public class MainWindow extends JFrame {
     private JLabel sTechValueLabel;
     private JLabel sProtocolValueLabel;
     private JLabel sUptimeValueLabel;
+    private JLabel[] statusValuesLabels = new JLabel[]{sServerValueLabel, sCountryValueLabel, sCityValueLabel, sIpValueLabel, sTechValueLabel, sProtocolValueLabel, sUptimeValueLabel, statusDataReceivedLabel, statusDataSentLabel};
 
     public MainWindow(){
         initComponents();
@@ -177,7 +178,7 @@ public class MainWindow extends JFrame {
 
     // Init button actions of the default panel
     private void initDefaultPanelButtonActions(){
-        quickConnBtn.addActionListener(e -> mwl.quickConnectButtonPressed(quickConnBtn, serverCountriesBtn, serverGroupsBtn, statusLabel));
+        quickConnBtn.addActionListener(e -> mwl.quickConnectButtonPressed(quickConnBtn, serverCountriesBtn, serverGroupsBtn, statusLabel, statusValuesLabels));
         serverCountriesBtn.addActionListener(e -> showCountryCard());
         serverGroupsBtn.addActionListener(e -> showGroupCard());
         settingsBtn.addActionListener(e -> showSettingsCard());

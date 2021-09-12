@@ -36,7 +36,7 @@ class NordVPNTest {
     public void connectToFrance(){
         String response = nordVpnCommands.connect("France");
         assertTrue(isCorrectResponse(response, "you are connected"));
-    }*/
+    }
 
     @Test // Fetch country list
     public void getCountries(){
@@ -63,6 +63,12 @@ class NordVPNTest {
             System.out.println(s);
         }
         assertTrue(response.length > 0);
+    }*/
+
+    @Test // Status object test
+    public void populateStatusObject(){
+        VpnStatus status = nordVpnCommands.status();
+        System.out.println(status);
     }
 
     // Check if response contains the expected String

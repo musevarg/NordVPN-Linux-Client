@@ -23,6 +23,9 @@ public class NordVPN {
     // Keep track of current connection status
     public boolean isConnected = false;
 
+    // Store status in an object
+    private VpnStatus status = new VpnStatus();
+
     // Keep track of all commands and responses in a log
     private static ArrayList<String> commandsLog = new ArrayList<>();
 
@@ -81,7 +84,7 @@ public class NordVPN {
     }
 
     // Fetch current connection status
-    public String status(){
+    public VpnStatus status(){
         String response;
         try{
             response = runCommand("nordvpn status");
@@ -90,7 +93,8 @@ public class NordVPN {
             response = "Something went wrong";
         }
         //System.out.println(response);
-        return response;
+        status.parseNordResponse(response);
+        return status;
     }
 
     // Fetch country list of available servers
