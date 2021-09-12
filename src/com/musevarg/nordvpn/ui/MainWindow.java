@@ -147,6 +147,8 @@ public class MainWindow extends JFrame {
         serverCountriesBtn.setText(rb.getString("chooseServerCountry"));
         serverGroupsBtn.setText(rb.getString("chooseServerGroup"));
         settingsBtn.setText(rb.getString("settings"));
+        JLabel[] statusHeadersLabels = new JLabel[]{statusReceivedLabel, statusSentLabel, sServerLabel, sCountryLabel, sCityLabel, sIpLabel, sTechLabel, sProtocolLabel, sUptimeLabel};
+        mwl.assignStatusLabels(statusHeadersLabels);
     }
 
     // Init the text in the country panel

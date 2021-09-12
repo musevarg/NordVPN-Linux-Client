@@ -91,6 +91,22 @@ public class MainWindowLogic {
     }
 
     /*
+     * THE METHODS BELOW ARE USED TO CREATE ELEMENTS IN THE DEFAULT CARD
+     */
+
+    public void assignStatusLabels(JLabel[] statusLabels){
+        statusLabels[0].setText(rb.getString("statusReceivedLabel"));
+        statusLabels[1].setText(rb.getString("statusSentLabel"));
+        statusLabels[2].setText(rb.getString("sServerLabel"));
+        statusLabels[3].setText(rb.getString("sCountryLabel"));
+        statusLabels[4].setText(rb.getString("sCityLabel"));
+        statusLabels[5].setText(rb.getString("sIpLabel"));
+        statusLabels[6].setText(rb.getString("sTechLabel"));
+        statusLabels[7].setText(rb.getString("sProtocolLabel"));
+        statusLabels[8].setText(rb.getString("sUptimeLabel"));
+    }
+
+    /*
      * THE METHODS BELOW ARE USED TO CREATE ELEMENTS IN THE COUNTRY CARD
      */
 
