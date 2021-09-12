@@ -51,11 +51,31 @@ public class MainWindow extends JFrame {
     private JLabel groupNameLabel;
     private JButton groupConnectBtn;
     private JButton groupBackBtn;
+    private JLabel statusIconLabel;
+    private JLabel statusServerLabel;
+    private JLabel statusDataReceivedLabel;
+    private JLabel statusDataSentLabel;
+    private JLabel statusReceivedLabel;
+    private JLabel statusSentLabel;
+    private JLabel sServerLabel;
+    private JLabel sCountryLabel;
+    private JLabel sCityLabel;
+    private JLabel sIpLabel;
+    private JLabel sTechLabel;
+    private JLabel sProtocolLabel;
+    private JLabel sUptimeLabel;
+    private JLabel sServerValueLabel;
+    private JLabel sCountryValueLabel;
+    private JLabel sCityValueLabel;
+    private JLabel sIpValueLabel;
+    private JLabel sTechValueLabel;
+    private JLabel sProtocolValueLabel;
+    private JLabel sUptimeValueLabel;
 
     public MainWindow(){
         initComponents();
         setApplicationIcon();
-        this.setSize(600, 400);
+        this.setSize(700, 500);
         this.setContentPane(mainCardLayoutPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationByPlatform(true);
