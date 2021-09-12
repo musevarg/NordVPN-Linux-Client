@@ -71,6 +71,7 @@ public class MainWindow extends JFrame {
     private JLabel sTechValueLabel;
     private JLabel sProtocolValueLabel;
     private JLabel sUptimeValueLabel;
+    JLabel[] statusHeadersLabels = new JLabel[]{statusReceivedLabel, statusSentLabel, sServerLabel, sCountryLabel, sCityLabel, sIpLabel, sTechLabel, sProtocolLabel, sUptimeLabel, statusIconLabel, statusServerLabel};
     private JLabel[] statusValuesLabels = new JLabel[]{sServerValueLabel, sCountryValueLabel, sCityValueLabel, sIpValueLabel, sTechValueLabel, sProtocolValueLabel, sUptimeValueLabel, statusDataReceivedLabel, statusDataSentLabel};
 
     public MainWindow(){
@@ -90,7 +91,7 @@ public class MainWindow extends JFrame {
         initLocale(LanguageLocales.enLocale);
 
         // Create instance of main window logic
-        mwl = new MainWindowLogic(this, rb);
+        mwl = new MainWindowLogic(this, rb, statusHeadersLabels, statusValuesLabels);
 
         // Init text of the UI
         initText();
@@ -148,8 +149,6 @@ public class MainWindow extends JFrame {
         serverCountriesBtn.setText(rb.getString("chooseServerCountry"));
         serverGroupsBtn.setText(rb.getString("chooseServerGroup"));
         settingsBtn.setText(rb.getString("settings"));
-        JLabel[] statusHeadersLabels = new JLabel[]{statusReceivedLabel, statusSentLabel, sServerLabel, sCountryLabel, sCityLabel, sIpLabel, sTechLabel, sProtocolLabel, sUptimeLabel};
-        mwl.assignStatusLabels(statusHeadersLabels);
     }
 
     // Init the text in the country panel
@@ -178,7 +177,7 @@ public class MainWindow extends JFrame {
 
     // Init button actions of the default panel
     private void initDefaultPanelButtonActions(){
-        quickConnBtn.addActionListener(e -> mwl.quickConnectButtonPressed(quickConnBtn, serverCountriesBtn, serverGroupsBtn, statusLabel, statusValuesLabels));
+        quickConnBtn.addActionListener(e -> mwl.quickConnectButtonPressed(quickConnBtn, serverCountriesBtn, serverGroupsBtn, statusLabel));
         serverCountriesBtn.addActionListener(e -> showCountryCard());
         serverGroupsBtn.addActionListener(e -> showGroupCard());
         settingsBtn.addActionListener(e -> showSettingsCard());

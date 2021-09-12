@@ -185,7 +185,8 @@ public class NordVPN {
                 if (!isLoadingCharacter(line)){
                     //System.out.println(line);
                     allLines.append(line).append("\n");
-                    commandsLog.add(getTimestamp() + line);
+                    if (!isStatusResponse(line))
+                        commandsLog.add(getTimestamp() + line);
                 }
             }
             return allLines.toString();
@@ -198,5 +199,9 @@ public class NordVPN {
     private static Boolean isLoadingCharacter(String line){
         int loadingCharactersLength = 2;
         return line.length() <= loadingCharactersLength;
+    }
+
+    private static Boolean isStatusResponse(String line){
+        return line.contains(":");
     }
 }

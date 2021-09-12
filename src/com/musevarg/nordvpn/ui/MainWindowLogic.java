@@ -7,7 +7,6 @@ import com.musevarg.nordvpn.vpn.VpnStatus;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ResourceBundle;
-import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -21,34 +20,45 @@ public class MainWindowLogic {
     private final MainWindow mainWindow;
     private VpnStatus status = new VpnStatus();
     private ScheduledExecutorService refreshStatusService;
+    JLabel[] statusLabels;
+    JLabel[] statusValuesLabels;
 
-    public MainWindowLogic(MainWindow mainWindow, ResourceBundle rb){
+    public MainWindowLogic(MainWindow mainWindow, ResourceBundle rb, JLabel[] statusLabels, JLabel[] statusValuesLabels){
         this.mainWindow = mainWindow;
         this.rb = rb;
         this.nordVPN = NordVPN.getInstance();
         this.countries = nordVPN.getCountries();
         this.groups = nordVPN.getServerGroups();
+        this.statusLabels = statusLabels;
+        this.statusValuesLabels = statusValuesLabels;
+        firstStatusCheck();
+    }
+
+    private void firstStatusCheck(){
+        fetchStatus();
+        if (status.getStatus().equals("Connected"))
+            nordVPN.isConnected = true;
+            refreshStatusService = refreshStatusService(40);
     }
 
     /*
      * THE METHODS BELOW HANDLE CONNECTIONS TO THE VPN
      */
 
-    public void quickConnectButtonPressed(JButton quickConnectBtn, JButton serverCountryBtn, JButton serverGroupsBtn, JLabel statusLabel, JLabel[] statusValuesLabels){
+    public void quickConnectButtonPressed(JButton quickConnectBtn, JButton serverCountryBtn, JButton serverGroupsBtn, JLabel statusLabel){
         new Thread(() -> {
             if (nordVPN.isConnected){
                 updateUiWhileConnecting(false, quickConnectBtn, serverCountryBtn, serverGroupsBtn, statusLabel);
                 nordVPN.disconnect();
-                fetchStatus(statusValuesLabels);
+                fetchStatus();
                 refreshStatusService.shutdown();
-                clearStatusValues(statusValuesLabels);
                 setQuickConnectBtnText(quickConnectBtn, rb.getString("quickConnect"));
                 enableButtons(quickConnectBtn, serverCountryBtn, serverGroupsBtn);
             } else {
                 updateUiWhileConnecting(true, quickConnectBtn, serverCountryBtn, serverGroupsBtn, statusLabel);
                 nordVPN.connect();
-                fetchStatus(statusValuesLabels);
-                refreshStatusService = refreshStatusService(5, statusValuesLabels);
+                fetchStatus();
+                refreshStatusService = refreshStatusService(40);
                 setQuickConnectBtnText(quickConnectBtn, rb.getString("disconnect"));
                 enableButtons(quickConnectBtn, serverCountryBtn, serverGroupsBtn);
             }
@@ -106,7 +116,7 @@ public class MainWindowLogic {
      * THE METHODS BELOW ARE USED TO CREATE ELEMENTS IN THE DEFAULT CARD
      */
 
-    public void assignStatusLabels(JLabel[] statusLabels){
+    public void assignStatusLabels(){
         statusLabels[0].setText(rb.getString("statusReceivedLabel"));
         statusLabels[1].setText(rb.getString("statusSentLabel"));
         statusLabels[2].setText(rb.getString("sServerLabel"));
@@ -116,9 +126,25 @@ public class MainWindowLogic {
         statusLabels[6].setText(rb.getString("sTechLabel"));
         statusLabels[7].setText(rb.getString("sProtocolLabel"));
         statusLabels[8].setText(rb.getString("sUptimeLabel"));
+
+        statusLabels[9].setText(rb.getString("connected"));
     }
 
-    public void assignStatusValues(JLabel[] statusValuesLabels){
+    public void clearStatusLabels(){
+        statusLabels[0].setText("");
+        statusLabels[1].setText("");
+        statusLabels[2].setText("");
+        statusLabels[3].setText("");
+        statusLabels[4].setText("");
+        statusLabels[5].setText("");
+        statusLabels[6].setText("");
+        statusLabels[7].setText("");
+        statusLabels[8].setText("");
+
+        statusLabels[9].setText(rb.getString("disconnected"));
+    }
+
+    public void assignStatusValues(){
         statusValuesLabels[0].setText(status.getServer());
         statusValuesLabels[1].setText(status.getCountry());
         statusValuesLabels[2].setText(status.getCity());
@@ -130,7 +156,7 @@ public class MainWindowLogic {
         statusValuesLabels[8].setText(status.getSent());
     }
 
-    public void clearStatusValues(JLabel[] statusValuesLabels){
+    public void clearStatusValuesLabels(){
         statusValuesLabels[0].setText("");
         statusValuesLabels[1].setText("");
         statusValuesLabels[2].setText("");
@@ -142,16 +168,26 @@ public class MainWindowLogic {
         statusValuesLabels[8].setText("-");
     }
 
-    private void fetchStatus(JLabel[] statusValuesLabels){
+    private void fetchStatus(){
         status = nordVPN.status();
-        assignStatusValues(statusValuesLabels);
+        if (status.getStatus().equals("Connected")){
+            assignStatusLabels();
+            assignStatusValues();
+        } else {
+            clearStatus();
+        }
+    }
+
+    private void clearStatus(){
+        clearStatusLabels();
+        clearStatusValuesLabels();
     }
 
     // Method that refreshes the status every specific time interval
-    public ScheduledExecutorService refreshStatusService(int seconds, JLabel[] statusValuesLabels){
+    public ScheduledExecutorService refreshStatusService(int seconds){
         Runnable runnable = () -> {
             status = nordVPN.status();
-            assignStatusValues(statusValuesLabels);
+            assignStatusValues();
             System.out.println("Refresh status ran");
         };
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
